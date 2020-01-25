@@ -61,7 +61,7 @@ namespace TRADDataMonitor
 	                proc.StartInfo.CreateNoWindow = true;
 			proc.StartInfo.UseShellExecute = false;
 			proc.StartInfo.CreateNoWindow = true;
-			proc.StartInfo.RedirectStandardOutput = true
+                    proc.StartInfo.RedirectStandardOutput = true;
         	        proc.Start();
                 	proc.WaitForExit();
 		}

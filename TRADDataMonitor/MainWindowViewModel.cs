@@ -663,7 +663,7 @@ namespace TRADDataMonitor
                     _gps.checkReplies += _email.RetrieveEmailReply;
                 }
 
-                AQS = new AirQualitySensor(_minVOC, _maxVOC, _minCO2, _minCO2);
+                AQS = new AirQualitySensor(_minVOC, _maxVOC, _minCO2, _maxCO2);
                 AQS.thresholdBroken += _email.SendEmailAlert;
                 AQS.checkReplies += _email.RetrieveEmailReply;
             }
