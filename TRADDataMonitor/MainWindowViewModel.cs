@@ -439,6 +439,7 @@ namespace TRADDataMonitor
             {
                 _savedVintHubs = value;
                 _savedVintHubs.Refresh();
+                OnPropertyChanged();
             }
         }
 

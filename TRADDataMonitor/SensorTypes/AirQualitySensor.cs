@@ -71,36 +71,36 @@ namespace TRADDataMonitor.SensorTypes
 
         public void OpenConnection()
         {
-            try
-            {
-                HtmlWeb web = new HtmlWeb();
-                HtmlDocument document = web.Load("http://192.168.100.163");
-                _lastVOC = Convert.ToInt32(document.DocumentNode.SelectSingleNode("/div/span[1]").InnerText);
-                _lastCO2 = Convert.ToInt32(document.DocumentNode.SelectSingleNode("/div/span[2]").InnerText);
-                _lastTimestamp = DateTime.Now;
-
-                LiveData = "VOC: " + _lastVOC + " ppb,  CO2: " + _lastCO2 + " ppm";
-
-                // Alerts for VOC
-                if ((_lastVOC < _minVOC || _lastVOC > _maxVOC) && !_VOCAlerts.Enabled && !VOCEmailTimerOnCooldown)
-                {
-                    lastVOCThresholdBrokenDate = DateTime.Now;
-                    thresholdBroken?.Invoke(_minVOC, _maxVOC, "VOC", _lastVOC, "broken");
-                    _VOCAlerts.Enabled = true;
-                }
-
-                // Alerts for CO2
-                if ((_lastCO2 < _minCO2 || _lastCO2 > _maxCO2) && !_CO2Alerts.Enabled && !CO2EmailTimerOnCooldown)
-                {
-                    lastCO2ThresholdBrokenDate = DateTime.Now;
-                    thresholdBroken?.Invoke(_minCO2, _maxCO2, "CO2", _lastCO2, "broken");
-                    _CO2Alerts.Enabled = true;
-                }
-            }
-            catch (Exception)
-            {
-                LiveData = "An error occured with the air quality sensor.";
-            }
+           // try
+           // {
+           //     HtmlWeb web = new HtmlWeb();
+           //     HtmlDocument document = web.Load("http://192.168.100.163");
+           //     _lastVOC = Convert.ToInt32(document.DocumentNode.SelectSingleNode("/div/span[1]").InnerText);
+           //     _lastCO2 = Convert.ToInt32(document.DocumentNode.SelectSingleNode("/div/span[2]").InnerText);
+           //     _lastTimestamp = DateTime.Now;
+           //
+           //     LiveData = "VOC: " + _lastVOC + " ppb,  CO2: " + _lastCO2 + " ppm";
+           //
+           //     // Alerts for VOC
+           //     if ((_lastVOC < _minVOC || _lastVOC > _maxVOC) && !_VOCAlerts.Enabled && !VOCEmailTimerOnCooldown)
+           //     {
+           //         lastVOCThresholdBrokenDate = DateTime.Now;
+           //         thresholdBroken?.Invoke(_minVOC, _maxVOC, "VOC", _lastVOC, "broken");
+           //         _VOCAlerts.Enabled = true;
+           //     }
+           //
+           //     // Alerts for CO2
+           //     if ((_lastCO2 < _minCO2 || _lastCO2 > _maxCO2) && !_CO2Alerts.Enabled && !CO2EmailTimerOnCooldown)
+           //     {
+           //         lastCO2ThresholdBrokenDate = DateTime.Now;
+           //         thresholdBroken?.Invoke(_minCO2, _maxCO2, "CO2", _lastCO2, "broken");
+           //         _CO2Alerts.Enabled = true;
+           //     }
+           // }
+           // catch (Exception)
+           // {
+           //     LiveData = "An error occured with the air quality sensor.";
+           // }
             _AirQualityData.Start();
         }
 

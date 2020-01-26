@@ -537,7 +537,6 @@ C:\Users\chase.mossing2\Desktop\Trad-Data-Monitor\TRADDataMonitor\obj\Debug\netc
 C:\Users\chase.mossing2\Desktop\Trad-Data-Monitor\TRADDataMonitor\obj\Debug\netcoreapp3.0\TRADDataMonitor.csproj.CopyComplete
 C:\Users\chase.mossing2\Desktop\Trad-Data-Monitor\TRADDataMonitor\obj\Debug\netcoreapp3.0\TRADDataMonitor.dll
 C:\Users\chase.mossing2\Desktop\Trad-Data-Monitor\TRADDataMonitor\obj\Debug\netcoreapp3.0\TRADDataMonitor.pdb
-C:\Users\chase.mossing2\Desktop\Trad-Data-Monitor-3\TRADDataMonitor\obj\Debug\netcoreapp3.0\TRADDataMonitor.csprojAssemblyReference.cache
 C:\Users\chase.mossing2\Desktop\Trad-Data-Monitor-3\TRADDataMonitor\obj\Debug\netcoreapp3.0\TRADDataMonitor.AssemblyInfoInputs.cache
 C:\Users\chase.mossing2\Desktop\Trad-Data-Monitor-3\TRADDataMonitor\obj\Debug\netcoreapp3.0\TRADDataMonitor.AssemblyInfo.cs
 C:\Users\chase.mossing2\Desktop\Trad-Data-Monitor-3\TRADDataMonitor\obj\Debug\netcoreapp3.0\TRADDataMonitor.dll
