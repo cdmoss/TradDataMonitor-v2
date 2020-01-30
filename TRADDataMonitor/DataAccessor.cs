@@ -65,46 +65,45 @@ namespace TRADDataMonitor
         // Input Validation Methods
 
         // Method to create a phidget class based on the configuration combo box and assign it to the correct hub port
-        public PhidgetSensor CreateSensor(string sensorName, int hubPort, string hubName, bool wireless)
+        public PhidgetSensor CreateSensor(string sensorName, int hubPort, int serial, string hubName, bool wireless)
         {
             PhidgetSensor ret = null;
-            // Using -1 as a parameter for debug purposes, come back and change it to the minThreshold and maxThreshold variable
             switch (sensorName)
             {
                 case "Moisture":
-                    ret = new MyMoistureSensor(hubPort, sensorName, hubName, MinMoisture, MaxMoisture, wireless);
+                    ret = new MyMoistureSensor(hubPort, sensorName, hubName, serial, MinMoisture, MaxMoisture, wireless);
                     break;
                 case "Light":
-                    ret = new MyLightSensor(hubPort, sensorName, hubName, -1, -1, wireless);
+                    ret = new MyLightSensor(hubPort, sensorName, hubName, serial, -1, -1, wireless);
                     break;
                 case "Humidity/Air Temperature":
-                    ret = new MyHumidityAirTemperatureSensor(hubPort, sensorName, hubName, MinHumidity, MaxHumidity, MinAirTemperature, MaxAirTemperature, wireless);
+                    ret = new MyHumidityAirTemperatureSensor(hubPort, sensorName, hubName, serial, MinHumidity, MaxHumidity, MinAirTemperature, MaxAirTemperature, wireless);
                     break;
                 case "Oxygen":
-                    ret = new MyOxygenSensor(hubPort, sensorName, hubName, MinOxygen, MaxOxygen, wireless);
+                    ret = new MyOxygenSensor(hubPort, sensorName, hubName, serial, MinOxygen, MaxOxygen, wireless);
                     break;
                 case "Soil Temperature":
-                    ret = new MySoilTemperatureSensor(hubPort, sensorName, hubName, MinSoilTemperature, MaxSoilTemperature, wireless);
+                    ret = new MySoilTemperatureSensor(hubPort, sensorName, hubName, serial, MinSoilTemperature, MaxSoilTemperature, wireless);
                     break;
                 case "None":
-                    ret = new PhidgetSensor(hubPort, "None", hubName, 0, 0, true);
+                    ret = new PhidgetSensor(hubPort, "None", hubName, -1, 0, 0, true);
                     break;
             }
             return ret;
         }
 
         // creates a new empty hub
-        public VintHub CreateNewHub()
+        public VintHub CreateNewHub(int serial)
         { 
             PhidgetSensor[] sensors = {
-                CreateSensor("None", 0, "New Hub", true),
-                CreateSensor("None", 1, "New Hub", true),
-                CreateSensor("None", 2, "New Hub", true),
-                CreateSensor("None", 3, "New Hub", true),
-                CreateSensor("None", 4, "New Hub", true),
-                CreateSensor("None", 5, "New Hub", true) };
+                CreateSensor("None", 0, serial, "New Hub", true),
+                CreateSensor("None", 1, serial, "New Hub", true),
+                CreateSensor("None", 2, serial, "New Hub", true),
+                CreateSensor("None", 3, serial, "New Hub", true),
+                CreateSensor("None", 4, serial, "New Hub", true),
+                CreateSensor("None", 5, serial, "New Hub", true) };
 
-            VintHub ret = new VintHub(sensors, true, "New Hub");
+            VintHub ret = new VintHub(sensors, true, "New Hub", serial);
 
             return ret;
         }
@@ -204,22 +203,23 @@ namespace TRADDataMonitor
                         {
                             if (!reader.HasRows)
                             {
-                                VintHubs.Add(CreateNewHub());                                
+                                VintHubs.Add(CreateNewHub(-1));                                
                             }
                             else
                             {
                                 while (reader.Read())
                                 {
                                     string hubName = reader.GetString(0);
+                                    int serial = reader.GetInt32(1);
 
                                     PhidgetSensor[] sensors = new PhidgetSensor[6];
-                                    for (int i = 0; i < 6; i++)
+                                    for (int i = 0; i < 7; i++)
                                     {
-                                        PhidgetSensor sensor = CreateSensor(reader.GetString(i + 1), i, hubName, reader.GetBoolean(7));
+                                        PhidgetSensor sensor = CreateSensor(reader.GetString(i + 2), i, serial, hubName, reader.GetBoolean(7));
                                         sensors[i] = sensor;
                                     }
 
-                                    VintHub newVint = new VintHub(sensors, reader.GetBoolean(7), hubName);
+                                    VintHub newVint = new VintHub(sensors, reader.GetBoolean(7), hubName, serial);
                                     VintHubs.Add(newVint);
                                 }
                             } 
@@ -296,9 +296,10 @@ namespace TRADDataMonitor
                                                     Gps = @Gps";
 
             //query to create new hub config
-            string createVintHubConfigQuery = $@"insert into VintHubConfig (HubName, Port0, Port1, Port2, Port3, Port4, Port5, Wireless) 
+            string createVintHubConfigQuery = $@"insert into VintHubConfig (HubName, SerialNumber Port0, Port1, Port2, Port3, Port4, Port5, Wireless) 
                                                     values(
                                                         @HubName,
+                                                        @Serial
                                                         @Port0,
                                                         @Port1, 
                                                         @Port2, 
@@ -371,6 +372,7 @@ namespace TRADDataMonitor
                 {
                     SQLiteCommand cmd = new SQLiteCommand(createVintHubConfigQuery, _tradDBConn);
                     cmd.Parameters.AddWithValue("@HubName", hub.HubName);
+                    cmd.Parameters.AddWithValue("@Serial", hub.SerialNumber);
                     cmd.Parameters.AddWithValue("@Port0", hub.Sensor0.SensorType);
                     cmd.Parameters.AddWithValue("@Port1", hub.Sensor1.SensorType);
                     cmd.Parameters.AddWithValue("@Port2", hub.Sensor2.SensorType);
@@ -434,7 +436,9 @@ namespace TRADDataMonitor
             string createTables = $@"create table if not exists SensorData(
                                             SensorType text,
                                             Data real,
-                                            DateTime text);
+                                            DateTime text,
+                                            SerialNumber int,
+                                            HubName text);
 
                                      create table if not exists VintHubConfig(
                                             HubName text primary key,
@@ -502,7 +506,7 @@ namespace TRADDataMonitor
         }
 
         // inserts the sensor data into an SQLite DB
-        public void InsertData(string collectionTime, string sensorType, string value)
+        public void InsertData(string collectionTime, string sensorType, string value, string serial, string hub)
         {
             try
             {

@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor\\TRADDataMonitor.csproj": {}
+    "C:\\Users\\cheze\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor\\TRADDataMonitor.csproj": {}
   },
   "projects": {
-    "C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor\\TRADDataMonitor.csproj": {
+    "C:\\Users\\cheze\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor\\TRADDataMonitor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor\\TRADDataMonitor.csproj",
+        "projectUniqueName": "C:\\Users\\cheze\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor\\TRADDataMonitor.csproj",
         "projectName": "TRADDataMonitor",
-        "projectPath": "C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor\\TRADDataMonitor.csproj",
-        "packagesPath": "C:\\Users\\chase.mossing2\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor\\obj\\",
+        "projectPath": "C:\\Users\\cheze\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor\\TRADDataMonitor.csproj",
+        "packagesPath": "C:\\Users\\cheze\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cheze\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\chase.mossing2\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\cheze\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
@@ -45,11 +43,19 @@
           "dependencies": {
             "Avalonia": {
               "target": "Package",
-              "version": "[0.9.1, )"
+              "version": "[0.9.2, )"
             },
             "Avalonia.Desktop": {
               "target": "Package",
-              "version": "[0.9.1, )"
+              "version": "[0.9.2, )"
+            },
+            "Avalonia.Skia": {
+              "target": "Package",
+              "version": "[0.9.2, )"
+            },
+            "Avalonia.Skia.Linux.Natives": {
+              "target": "Package",
+              "version": "[1.68.0.2, )"
             },
             "HtmlAgilityPack": {
               "target": "Package",
@@ -86,12 +92,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[3.0.2, 3.0.2]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

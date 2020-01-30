@@ -13,7 +13,7 @@ namespace TRADDataMonitor.SensorTypes
         private double lastIlluminance = -1;
         private bool emailTimerOnCooldown = false;
 
-        public MyLightSensor(int hubPort, string type, string hubName, double minThreshold, double maxThreshold, bool wireless) : base(hubPort, type, hubName, minThreshold, maxThreshold, wireless)
+        public MyLightSensor(int hubPort, string type, string hubName, int serial, double minThreshold, double maxThreshold, bool wireless) : base(hubPort, type, hubName, serial, minThreshold, maxThreshold, wireless)
         {
             device = new LightSensor();
             device.HubPort = hubPort;
@@ -93,10 +93,12 @@ namespace TRADDataMonitor.SensorTypes
 
         public override String[] ProduceData()
         {
-            string[] ret = new string[3];
+            string[] ret = new string[5];
             ret[0] = lastTimestamp.ToString();
             ret[1] = "Light (lx)";
             ret[2] = LiveData;
+            ret[3] = SerialNumber.ToString();
+            ret[4] = hubName.ToString();
             return ret;
         }
 

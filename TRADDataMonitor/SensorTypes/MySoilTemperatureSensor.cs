@@ -15,7 +15,7 @@ namespace TRADDataMonitor.SensorTypes
         private bool emailTimerOnCooldown = false;
 
 
-        public MySoilTemperatureSensor(int hubPort, string type, string hubName, double minThreshold, double maxThreshold, bool wireless) : base(hubPort, type, hubName, minThreshold, maxThreshold, wireless)
+        public MySoilTemperatureSensor(int hubPort, string type, string hubName, int serial, double minThreshold, double maxThreshold, bool wireless) : base(hubPort, type, hubName, serial, minThreshold, maxThreshold, wireless)
         {
             device = new TemperatureSensor();
             device.HubPort = hubPort;
@@ -94,10 +94,12 @@ namespace TRADDataMonitor.SensorTypes
         }
         public override string[] ProduceData()
         {
-            string[] ret = new string[3];
+            string[] ret = new string[5];
             ret[0] = lastTimestamp.ToString();
             ret[1] = "Soil Temperature (°C)";
             ret[2] = LiveData;
+            ret[3] = SerialNumber.ToString();
+            ret[4] = hubName.ToString();
             return ret;
         }
     }

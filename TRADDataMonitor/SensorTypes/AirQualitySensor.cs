@@ -116,7 +116,7 @@ namespace TRADDataMonitor.SensorTypes
             try
             {
                 HtmlWeb web = new HtmlWeb();
-                HtmlDocument document = web.Load("http://192.168.100.163");
+                HtmlDocument document = web.Load("http://192.168.137.106");
                 _lastVOC = Convert.ToInt32(document.DocumentNode.SelectSingleNode("/div/span[1]").InnerText);
                 _lastCO2 = Convert.ToInt32(document.DocumentNode.SelectSingleNode("/div/span[2]").InnerText);
                 _lastTimestamp = DateTime.Now;

@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace TRADDataMonitor
 {
-    public class DataWindow : Window
+    public class GraphWindow : Window
     {
-        public DataWindow()
+        public GraphWindow()
         {
             this.InitializeComponent();
             this.DataContext = new DataWindowViewModel();
