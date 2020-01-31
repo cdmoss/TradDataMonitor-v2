@@ -17,7 +17,7 @@ namespace TRADDataMonitor.SensorTypes
         public DateTime lastTimestamp, lastHumidityThresholdBrokenDate, lastTemperatureThresholdBrokenDate;
         private bool humidityEmailTimerOnCooldown = false, temperatureEmailTimerOnCooldown = false;
 
-        public MyHumidityAirTemperatureSensor(int hubPort, string type, string hubName, int serial, double minHumThreshold, double maxHumThreshold, double minAirThreshold, double maxAirThreshold, bool wireless) : base(hubPort, type, hubName, serial, minHumThreshold, maxHumThreshold, minAirThreshold, maxAirThreshold, wireless)
+        public MyHumidityAirTemperatureSensor(int hubPort, string type, string hubName, string serial, double minHumThreshold, double maxHumThreshold, double minAirThreshold, double maxAirThreshold, bool wireless) : base(hubPort, type, hubName, serial, minHumThreshold, maxHumThreshold, minAirThreshold, maxAirThreshold, wireless)
         {
             humidityDevice = new HumiditySensor();
             humidityDevice.HubPort = hubPort;

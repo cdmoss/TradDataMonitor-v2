@@ -13,7 +13,7 @@ namespace TRADDataMonitor.SensorTypes
         private double lastIlluminance = -1;
         private bool emailTimerOnCooldown = false;
 
-        public MyLightSensor(int hubPort, string type, string hubName, int serial, double minThreshold, double maxThreshold, bool wireless) : base(hubPort, type, hubName, serial, minThreshold, maxThreshold, wireless)
+        public MyLightSensor(int hubPort, string type, string hubName, string serial, double minThreshold, double maxThreshold, bool wireless) : base(hubPort, type, hubName, serial, minThreshold, maxThreshold, wireless)
         {
             device = new LightSensor();
             device.HubPort = hubPort;

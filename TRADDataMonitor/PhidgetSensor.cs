@@ -17,7 +17,7 @@ namespace TRADDataMonitor
         protected string hubName;
         protected string _sensorType, _liveData, _portString;
 
-        public int SerialNumber { get; set; }
+        public string SerialNumber { get; set; }
 
         public string SensorType
         {
@@ -58,7 +58,7 @@ namespace TRADDataMonitor
         public EmailCheckReplies checkReplies;
 
         // Constructor for both a minimum threshold value and a maximimum threshold value
-        public PhidgetSensor(int hubPort, string type, string hubName, int serial, double minThreshold, double maxThreshold, bool wireless)
+        public PhidgetSensor(int hubPort, string type, string hubName, string serial, double minThreshold, double maxThreshold, bool wireless)
         {
             //Assign the channel from phidget port
             this.hubPort = hubPort;
@@ -83,7 +83,7 @@ namespace TRADDataMonitor
         }
 
         // Constructor for 2 minimum threshold values and 2 maximimum threshold values
-        public PhidgetSensor(int hubPort, string type, string hubName, int serial, double firstMinThreshold, double firstMaxThreshold, double secondMinThreshold, double secondMaxThreshold, bool wireless)
+        public PhidgetSensor(int hubPort, string type, string hubName, string serial, double firstMinThreshold, double firstMaxThreshold, double secondMinThreshold, double secondMaxThreshold, bool wireless)
         {
             //Assign the channel from phidget port
             this.hubPort = hubPort;

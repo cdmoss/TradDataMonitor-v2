@@ -7,11 +7,20 @@ namespace TRADDataMonitor
     public class VintHubViewModel
     {
         MainWindow _mainWindow;
-        public VintHubViewModel(MainWindow mw)
+        MainWindowViewModel vm;
+        VintHubWindow window;
+        public VintHubViewModel()
         {
-            this._mainWindow = mw;
+            //_mainWindow = mw;
+            //this.vm = vm;
+            //this.window = window;
         }
 
-
+        public void CreateHub(int serial)
+        {
+       //     vm.UnsavedVintHubs.Add(vm.Data.CreateNewHub(serial));
+       //     window.Close();
+        }
     }
+    // MainWindow mw, MainWindowViewModel vm, VintHubWindow window
 }

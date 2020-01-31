@@ -65,7 +65,7 @@ namespace TRADDataMonitor
         // Input Validation Methods
 
         // Method to create a phidget class based on the configuration combo box and assign it to the correct hub port
-        public PhidgetSensor CreateSensor(string sensorName, int hubPort, int serial, string hubName, bool wireless)
+        public PhidgetSensor CreateSensor(string sensorName, int hubPort, string serial, string hubName, bool wireless)
         {
             PhidgetSensor ret = null;
             switch (sensorName)
@@ -86,14 +86,14 @@ namespace TRADDataMonitor
                     ret = new MySoilTemperatureSensor(hubPort, sensorName, hubName, serial, MinSoilTemperature, MaxSoilTemperature, wireless);
                     break;
                 case "None":
-                    ret = new PhidgetSensor(hubPort, "None", hubName, -1, 0, 0, true);
+                    ret = new PhidgetSensor(hubPort, "None", hubName, "none", 0, 0, true);
                     break;
             }
             return ret;
         }
 
         // creates a new empty hub
-        public VintHub CreateNewHub(int serial)
+        public VintHub CreateNewHub(string serial)
         { 
             PhidgetSensor[] sensors = {
                 CreateSensor("None", 0, serial, "New Hub", true),
@@ -203,23 +203,23 @@ namespace TRADDataMonitor
                         {
                             if (!reader.HasRows)
                             {
-                                VintHubs.Add(CreateNewHub(-1));                                
+                                VintHubs.Add(CreateNewHub("none"));                                
                             }
                             else
                             {
                                 while (reader.Read())
                                 {
                                     string hubName = reader.GetString(0);
-                                    int serial = reader.GetInt32(1);
+                                    string serial = reader.GetString(1);
 
                                     PhidgetSensor[] sensors = new PhidgetSensor[6];
-                                    for (int i = 0; i < 7; i++)
+                                    for (int i = 0; i < 6; i++)
                                     {
-                                        PhidgetSensor sensor = CreateSensor(reader.GetString(i + 2), i, serial, hubName, reader.GetBoolean(7));
+                                        PhidgetSensor sensor = CreateSensor(reader.GetString(i + 2), i, serial, hubName, reader.GetBoolean(8));
                                         sensors[i] = sensor;
                                     }
 
-                                    VintHub newVint = new VintHub(sensors, reader.GetBoolean(7), hubName, serial);
+                                    VintHub newVint = new VintHub(sensors, reader.GetBoolean(8), hubName, serial);
                                     VintHubs.Add(newVint);
                                 }
                             } 
@@ -296,10 +296,10 @@ namespace TRADDataMonitor
                                                     Gps = @Gps";
 
             //query to create new hub config
-            string createVintHubConfigQuery = $@"insert into VintHubConfig (HubName, SerialNumber Port0, Port1, Port2, Port3, Port4, Port5, Wireless) 
+            string createVintHubConfigQuery = $@"insert into VintHubConfig (HubName, SerialNumber, Port0, Port1, Port2, Port3, Port4, Port5, Wireless) 
                                                     values(
                                                         @HubName,
-                                                        @Serial
+                                                        @Serial,
                                                         @Port0,
                                                         @Port1, 
                                                         @Port2, 
@@ -437,11 +437,12 @@ namespace TRADDataMonitor
                                             SensorType text,
                                             Data real,
                                             DateTime text,
-                                            SerialNumber int,
+                                            SerialNumber text,
                                             HubName text);
 
                                      create table if not exists VintHubConfig(
-                                            HubName text primary key,
+                                            HubName text,
+                                            SerialNumber text, 
                                             Port0 text not null,
                                             Port1 text not null,
                                             Port2 text not null,
@@ -506,15 +507,17 @@ namespace TRADDataMonitor
         }
 
         // inserts the sensor data into an SQLite DB
-        public void InsertData(string collectionTime, string sensorType, string value, string serial, string hub)
+        public string InsertData(string collectionTime, string sensorType, string value, string serial, string hub)
         {
             try
             {
-                string query = $@"insert into SensorData (SensorType, Data, DateTime)
+                string query = $@"insert into SensorData (SensorType, Data, DateTime, SerialNumber, HubName)
                                 values(
                                     '{sensorType}',
                                     '{value}',
-                                    '{collectionTime}')";
+                                    '{collectionTime}',
+                                    '{serial}',
+                                    '{hub}')";
 
                 _tradDBConn.Open();
 
@@ -522,10 +525,11 @@ namespace TRADDataMonitor
                 {
                     cmd.ExecuteNonQuery();
                 }
+                return "good";
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                return $"An error occured while collection data: \n{ex.Message} \n \n Data collection still running.";
             }
             finally
             {
@@ -533,13 +537,63 @@ namespace TRADDataMonitor
             }
         }
 
-        public DataTable GetSensorData(string sensorType)
+        public DataTable GetAllSensorData()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string query = $@"select * from SensorData";
+                _tradDBConn.Open();
+
+                using (SQLiteDataAdapter adp = new SQLiteDataAdapter(query, _tradDBConn))
+                {
+                    adp.Fill(dt);
+                }
+
+                _tradDBConn.Close();
+
+                return dt;
+            }
+            catch //(Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public DataTable GetSensorDataBySerial(string serial)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string query = $@"select * from SensorData
+                                  where SerialNumber = '{serial}'";
+                _tradDBConn.Open();
+
+                using (SQLiteDataAdapter adp = new SQLiteDataAdapter(query, _tradDBConn))
+                {
+                    adp.Fill(dt);
+                }
+
+                _tradDBConn.Close();
+
+                return dt;
+            }
+            catch //(Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public DataTable GetSensorDataBySensorAndSerial(string sensorType, string serial)
         {
             DataTable dt = new DataTable();
             try
             {
                 string query = $@"select * from SensorData 
-                                where SensorType like '%{sensorType}%'";
+                                where SensorType like '%{sensorType}%' and 
+                                SerialNumber = {serial}";
                 _tradDBConn.Open();
 
                 using (SQLiteDataAdapter adp = new SQLiteDataAdapter(query, _tradDBConn))

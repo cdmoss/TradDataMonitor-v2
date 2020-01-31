@@ -15,7 +15,7 @@ namespace TRADDataMonitor.SensorTypes
         private double lastVoltage = -1;
         private bool emailTimerOnCooldown = false;
 
-        public MyMoistureSensor(int hubPort, string type, string hubName, int serial, double minThreshold, double maxThreshold, bool wireless) : base(hubPort, type, hubName, serial, minThreshold, maxThreshold, wireless)
+        public MyMoistureSensor(int hubPort, string type, string hubName, string serial, double minThreshold, double maxThreshold, bool wireless) : base(hubPort, type, hubName, serial, minThreshold, maxThreshold, wireless)
         {
             device = new VoltageInput();
             device.HubPort = hubPort;

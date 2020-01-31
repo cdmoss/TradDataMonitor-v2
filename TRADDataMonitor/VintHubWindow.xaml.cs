@@ -9,6 +9,8 @@ namespace TRADDataMonitor
         public VintHubWindow()
         {
             this.InitializeComponent();
+            VintHubViewModel vhvm = new VintHubViewModel();
+
 #if DEBUG
             this.AttachDevTools();
 #endif
@@ -19,4 +21,5 @@ namespace TRADDataMonitor
             AvaloniaXamlLoader.Load(this);
         }
     }
+    // mw._mainWindow, mw, this
 }

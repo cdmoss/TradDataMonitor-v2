@@ -14,7 +14,7 @@ namespace TRADDataMonitor
         bool _wireless;
         string _hubName;
         string _wirelessString; //, _idString;
-        int _serial;
+        string _serial;
         #region sensor properties
         public PhidgetSensor Sensor0
         {
@@ -125,7 +125,7 @@ namespace TRADDataMonitor
             }
         }
 
-        public int SerialNumber
+        public string SerialNumber
         {
             get { return _serial; }
             set
@@ -135,7 +135,8 @@ namespace TRADDataMonitor
             }
         }
 
-        public VintHub(PhidgetSensor[] sensors, bool wireless, string hubName, int serial)
+        // creates a hub out of a already made array of sensors
+        public VintHub(PhidgetSensor[] sensors, bool wireless, string hubName, string serial)
         {
             try
             {

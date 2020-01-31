@@ -2,8 +2,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="225"
         x:Class="TRADDataMonitor.VintHubWindow"
         Title="Window1">
-    Welcome to Avalonia!
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="1*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*"/>
+      <RowDefinition Height="2*"/>
+      <RowDefinition Height="1*"/>
+    </Grid.RowDefinitions>
+    <TextBlock HorizontalAlignment="Center" Grid.ColumnSpan="2" Text="Create New Vint Hub" Margin="20"/>
+    <TextBlock VerticalAlignment="Center" Grid.Row="1" Text="Enter Serial Number:" Margin="50 40 0 0"/>
+    <TextBox x:Name="txtVintSerial" Grid.Column="1" VerticalAlignment="Center" Grid.Row="1" Margin="0 40 50 0" Height="30"/>
+    <Button x:Name="btnSubmitHub" Grid.Row="2" VerticalAlignment="Center" Content="Submit" Margin="50" Grid.ColumnSpan="2" Command="{Binding $parent[Window].DataContext.CreateHub}" />
+  </Grid>
 </Window>

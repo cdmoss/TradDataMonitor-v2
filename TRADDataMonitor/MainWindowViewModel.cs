@@ -27,6 +27,7 @@ namespace TRADDataMonitor
         double _maxSoilTemperature, _maxAirTemperature, _maxHumidity, _maxMoisture, _maxOxygen, _maxVOC, _maxCO2, _maxGpsDistance;
         string _recipientEmailAddress, _senderEmailAddress, _senderEmailPassword, _senderEmailSmtpAddress, _senderEmailSmtpPort, _dataCollectionIntervalTime;
         bool _gpsEnabled = false;
+        string _hubSerialNumber;
         ItemsChangeObservableCollection<VintHub> _unsavedVintHubs;
         VintHub _selectedConfigHub;
 
@@ -40,7 +41,7 @@ namespace TRADDataMonitor
         bool _gpsInitialDataStored, _isCollectingData = false;
 
         // for message boxes
-        MainWindow _mainWindow;
+        public MainWindow _mainWindow;
 
         // reference picture 
         Bitmap _phidgetImage { get; set; } = new Bitmap("phidget_hub_6_ports.png");
@@ -103,7 +104,7 @@ namespace TRADDataMonitor
                     _hubPort2 = value;
                     if (SelectedConfigHub != null)
                     {
-                        SelectedConfigHub.Sensor1 = _data.CreateSensor(value, 1, SelectedConfigHub.SerialNumber, SelectedConfigHub.HubName, SelectedConfigHub.Wireless);
+                        SelectedConfigHub.Sensor2 = _data.CreateSensor(value, 1, SelectedConfigHub.SerialNumber, SelectedConfigHub.HubName, SelectedConfigHub.Wireless);
                     }
                     OnPropertyChanged();
                 }
@@ -157,6 +158,19 @@ namespace TRADDataMonitor
                     }
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        public string HubSerialNumber 
+        { 
+            get
+            {
+                return _hubSerialNumber;
+            }
+            set
+            {
+                _hubSerialNumber = value;
+                OnPropertyChanged();
             }
         }
 
@@ -506,6 +520,7 @@ namespace TRADDataMonitor
         public MainWindowViewModel()
         {
             LoadConfiguration();
+            Net.EnableServerDiscovery(Phidget22.ServerType.DeviceRemote);
         }
 
         void SaveConfiguration()
@@ -710,8 +725,10 @@ namespace TRADDataMonitor
         }   
         public void CreateNewVintHub()
         {
-            VintHubWindow v = new VintHubWindow();
-            v.Show();
+            UnsavedVintHubs.Add(_data.CreateNewHub(HubSerialNumber));
+            //VintHubWindow v = new VintHubWindow();
+            //v.Show();
+            //this
         }
 
         public void RemoveVintHub()
@@ -746,25 +763,9 @@ namespace TRADDataMonitor
 
                     foreach (var hub in _savedVintHubs)
                     {
-                        int serialNum;
-                        int checkIndex = 0;
-
-                        // find the serial number of the first sensor found on hub. this will be assigned to 
-                        // the hub later to keep track of which sensor is on which hub
-                        while (true)
-                        {
-                            if (hub.AllSensors[checkIndex].SensorType != "None")
-                            {
-                                serialNum = hub.AllSensors[checkIndex].SerialNumber;
-                                break;
-                            }
-                            checkIndex++;
-                        }
-
-                        if (hub.Wireless)
-                            Net.EnableServerDiscovery(Phidget22.ServerType.DeviceRemote);
                         foreach (var sensor in hub.AllSensors)
                         {
+                            sensor.SerialNumber = hub.SerialNumber;
                             sensor.OpenConnection();
                             sensor.thresholdBroken += _email.SendEmailAlert;
                             sensor.checkReplies += _email.RetrieveEmailReply;
@@ -831,6 +832,15 @@ namespace TRADDataMonitor
             dw.Show();
         }
 
+        public void InsertData(string collectionTime, string sensorType, string value, string serial, string hub)
+        {
+            string result = _data.InsertData(collectionTime, sensorType, value, serial, hub);
+            if (result != "good")
+            {
+                MessageBox.Show(_mainWindow, $"An error occured during data collection: \n {result} \n \n Data collection still running.", "Data Colleciton Error", MessageBox.MessageBoxButtons.Ok);
+            }
+        }
+
         // Timer tick event
         private void Tmr_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
@@ -838,15 +848,19 @@ namespace TRADDataMonitor
             if (!_gpsInitialDataStored && GpsEnabled)
             {
                 string[] tmp = _gps.ProduceData();
-                _data.InsertData(tmp[0], tmp[1], tmp[2], "none", "none");
+                if (true)
+                {
+
+                }
+                InsertData(tmp[0], tmp[1], tmp[2], "none", "none");
                 _gpsInitialDataStored = true;
             }
 
             // store data from VOC
             string[] voc = _aqs.ProduceVOCData();
             string[] co2 = _aqs.ProduceCO2Data();
-            _data.InsertData(voc[0], voc[1], voc[2], "none", "none");
-            _data.InsertData(co2[0], co2[1], co2[2], "none", "none");
+            InsertData(voc[0], voc[1], voc[2], "none", "none");
+            InsertData(co2[0], co2[1], co2[2], "none", "none");
 
             // store data from all sensors
             foreach (VintHub vintHub in _savedVintHubs)
@@ -861,13 +875,13 @@ namespace TRADDataMonitor
                             string[] humidity = humiditySensor.ProduceHumidityData();
                             string[] temp = humiditySensor.ProduceAirTemperatureData();
 
-                            _data.InsertData(humidity[0], humidity[1], humidity[2], humidity[3], humidity[4]);
-                            _data.InsertData(temp[0], temp[1], temp[2], temp[3], temp[4]);
+                            InsertData(humidity[0], humidity[1], humidity[2], humidity[3], humidity[4]);
+                            InsertData(temp[0], temp[1], temp[2], temp[3], temp[4]);
                         }
                         else
                         {
                             string[] tmp = sensor.ProduceData();
-                            _data.InsertData(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4]);
+                            InsertData(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4]);
                         }
                     }
                 }

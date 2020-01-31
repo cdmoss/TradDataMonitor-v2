@@ -15,7 +15,7 @@ namespace TRADDataMonitor.SensorTypes
         private bool emailTimerOnCooldown = false;
 
 
-        public MySoilTemperatureSensor(int hubPort, string type, string hubName, int serial, double minThreshold, double maxThreshold, bool wireless) : base(hubPort, type, hubName, serial, minThreshold, maxThreshold, wireless)
+        public MySoilTemperatureSensor(int hubPort, string type, string hubName, string serial, double minThreshold, double maxThreshold, bool wireless) : base(hubPort, type, hubName, serial, minThreshold, maxThreshold, wireless)
         {
             device = new TemperatureSensor();
             device.HubPort = hubPort;

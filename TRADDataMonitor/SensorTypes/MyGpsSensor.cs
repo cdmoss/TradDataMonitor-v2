@@ -69,6 +69,7 @@ namespace TRADDataMonitor.SensorTypes
             if (distanceFromInitialLocation > distanceThreshold && !_GPSAlerts.Enabled && !GPSAlertOnCooldown)
             {
                 thresholdBroken?.Invoke(distanceThreshold, "GPS", lastLatitude, lastLongitude, distanceFromInitialLocation);
+                lastThresholdBrokenDate = DateTime.Now;
                 _GPSAlerts.Enabled = true;
             }         
         }

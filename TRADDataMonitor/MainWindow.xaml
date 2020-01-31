@@ -118,6 +118,14 @@
 					<ComboBox Name="cmbHubPort4" Items="{Binding _sensorTypes}" SelectedItem="{Binding HubPort4, Mode=TwoWay}" Grid.Row="7" Grid.Column="1" Margin="2"/>
 					<ComboBox Name="cmbHubPort5" Items="{Binding _sensorTypes}" SelectedItem="{Binding HubPort5, Mode=TwoWay}" Grid.Row="8" Grid.Column="1" Margin="2"/>
 					<CheckBox IsChecked="{Binding SelectedConfigHub.Wireless}" Grid.Column="1" Grid.Row="9"/>
+          <Grid Grid.Column="2" Grid.Row="9">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*"/>
+              <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Serial Number:" Grid.Column="0" Margin="10 2 0 2" VerticalAlignment="Center"/>
+            <TextBox Name="txtHubSerialNumber" Text="{Binding HubSerialNumber}" Grid.Column="1" Margin="2 2 10 0"/>
+          </Grid> 
 					<ListBox Items="{Binding UnsavedVintHubs}" SelectedItem="{Binding SelectedConfigHub}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="6" Margin="10 2">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
@@ -129,11 +137,14 @@
 									<Grid.RowDefinitions>
 										<RowDefinition Height="auto"/>
 										<RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
 									</Grid.RowDefinitions>
-									<TextBlock Text="Hub ID: " Grid.Column="0"/>
-									<TextBlock Text="{Binding HubName}" Grid.Column="1"/>
-									<TextBlock Text="Wireless: " Grid.Column="0" Grid.Row="1"/>
-									<TextBlock Text="{Binding WirelessString}" Grid.Column="1" Grid.Row="1"/>
+									<TextBlock Text="Hub Name: " Grid.Column="0" Grid.Row="0"/>
+									<TextBlock Text="{Binding HubName}" Grid.Column="1" Grid.Row="0"/>
+                  <TextBlock Text="Hub Serial Number: " Grid.Column="0" Grid.Row="1"/>
+                  <TextBlock Text="{Binding SerialNumber}" Grid.Column="1" Grid.Row="1"/>
+									<TextBlock Text="Wireless: " Grid.Column="0" Grid.Row="2"/>
+									<TextBlock Text="{Binding WirelessString}" Grid.Column="1" Grid.Row="2"/>
 								</Grid>
 							</DataTemplate>
 						</ListBox.ItemTemplate>
