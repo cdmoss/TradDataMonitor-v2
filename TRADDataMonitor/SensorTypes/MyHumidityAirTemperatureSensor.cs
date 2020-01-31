@@ -44,8 +44,8 @@ namespace TRADDataMonitor.SensorTypes
             try
             {
                 //Open the connection
-                humidityDevice.Open(4000);
-                temperatureDevice.Open(4000);
+                humidityDevice.Open();
+                temperatureDevice.Open();
             }
             catch (Exception ex)
             {

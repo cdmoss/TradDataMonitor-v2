@@ -27,7 +27,7 @@ namespace TRADDataMonitor.SensorTypes
             try
             {
                 //Open the connection
-                device.Open(4000);
+                device.Open();
             }
             catch (Exception ex)
             {

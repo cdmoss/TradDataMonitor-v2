@@ -23,6 +23,8 @@ namespace TRADDataMonitor
         string _selectedSensor;
         string _selectedSerial;
 
+        bool _isLinux = true;
+
         ObservableCollection<string> _serialNumbers = new ObservableCollection<string>();
         ObservableCollection<string> _sensorTypes = new ObservableCollection<string>();
 
@@ -77,6 +79,17 @@ namespace TRADDataMonitor
             {
                 _selectedSerial = value;
                 GetDistinctSensors();
+                OnPropertyChanged();
+            }
+        }
+
+
+        public bool IsLinux
+        {
+            get { return _isLinux; }
+            set 
+            { 
+                _isLinux = value;
                 OnPropertyChanged();
             }
         }
@@ -145,21 +158,41 @@ namespace TRADDataMonitor
             {
                 DataTableToCSV(_data.GetSensorDataBySensorAndSerial(SelectedSensor, SelectedSerial));
 
-                using (Process proc = new Process())
-		        {
-			        proc.StartInfo.FileName = "sh";
-			        proc.StartInfo.Arguments = "/home/pi/Trad-Data-Monitor/TradPackage/chart.sh";
-	                        proc.StartInfo.CreateNoWindow = true;
-			        proc.StartInfo.UseShellExecute = false;
-			        proc.StartInfo.CreateNoWindow = true;
-                    proc.StartInfo.RedirectStandardOutput = true;
-        	        proc.Start();
-                	proc.WaitForExit();
-		        }
-                Graph = new Bitmap("/home/pi/Trad-Data-Monitor/TradPackage/graph.png");
+                if (_isLinux)
+                {
+                    using (Process proc = new Process())
+                    {
+                        proc.StartInfo.FileName = "sh";
+                        proc.StartInfo.Arguments = "/home/pi/Trad-Data-Monitor/GraphData/graph.sh";
+                        proc.StartInfo.CreateNoWindow = true;
+                        proc.StartInfo.UseShellExecute = false;
+                        proc.StartInfo.CreateNoWindow = true;
+                        proc.StartInfo.RedirectStandardOutput = true;
+                        proc.Start();
+                        proc.WaitForExit();
+                    }
+                    Graph = new Bitmap("/home/pi/Trad-Data-Monitor/GraphData/graph.png");
+                }
+                else
+                {
+                
+                    System.Diagnostics.Process.Start("C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\GraphData\\graph.bat");
+
+                    //using (Process proc = new Process())
+                    //{
+                    //    proc.StartInfo.FileName = "C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\GraphData\\graph.bat";
+                    //    proc.StartInfo.CreateNoWindow = true;
+                    //    proc.StartInfo.CreateNoWindow = true;
+                    //    proc.StartInfo.RedirectStandardOutput = true;
+                    //    proc.Start();
+                    //    proc.WaitForExit();
+                    //}
+                    Graph = new Bitmap("C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\GraphData\\graph.png");
+                }
             }
             catch (Exception ex)
             {
+                throw;
                 MessageBox.Show(gw, $"An error occured while making the graph. Check that values are entered and try again", "Graph Error", MessageBox.MessageBoxButtons.Ok);
             }
         }
@@ -179,7 +212,14 @@ namespace TRADDataMonitor
                 sb.AppendLine(string.Join(",", fields));
             }
 
-            File.WriteAllText("C:\\Users\\cheze\\Desktop\\TradPackage\\data.csv", sb.ToString());
+            if (_isLinux)
+            {
+                File.WriteAllText("/home/pi/Trad-Data-Monitor-3/GraphData/data.csv", sb.ToString());
+            }
+            else
+            {
+                File.WriteAllText("C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\GraphData\\data.csv", sb.ToString());
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
