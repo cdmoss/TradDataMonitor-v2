@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -218,7 +219,7 @@ namespace TRADDataMonitor.SensorTypes
         public string[] ProduceCO2Data()
         {
             string[] ret = new string[3];
-            ret[0] = _lastTimestamp.ToString();
+            ret[0] = _lastTimestamp.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             ret[1] = "CO2 (ppm)";
             ret[2] = _lastCO2.ToString();
             return ret;

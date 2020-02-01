@@ -15,6 +15,7 @@ using System.Net.Http;
 using HtmlAgilityPack;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace TRADDataMonitor
 {
@@ -586,14 +587,16 @@ namespace TRADDataMonitor
             }
         }
 
-        public DataTable GetSensorDataBySensorAndSerial(string sensorType, string serial)
+        public DataTable GetSensorDataBySensorSerialDate(string sensorType, string serial, DateTime start, DateTime end)
         {
             DataTable dt = new DataTable();
             try
             {
                 string query = $@"select * from SensorData 
                                 where SensorType like '%{sensorType}%' and 
-                                SerialNumber = {serial}";
+                                SerialNumber = {serial} and
+                                DateTime = {start.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)} and
+                                DateTime = {start.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)}";
                 _tradDBConn.Open();
 
                 using (SQLiteDataAdapter adp = new SQLiteDataAdapter(query, _tradDBConn))

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Timers;
 // Added
@@ -107,7 +108,7 @@ namespace TRADDataMonitor.SensorTypes
         public string[] ProduceData()
         {
             string[] ret = new string[3];
-            ret[0] = initialTimeStamp.ToString();
+            ret[0] = initialTimeStamp.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             ret[1] = "GPS Data (Trailer Location)";
             ret[2] = Math.Round(initialLatitude, 6).ToString() + " °, " + Math.Round(initialLongitude, 6).ToString() + " °";
             return ret;

@@ -9,7 +9,7 @@ namespace TRADDataMonitor
         public GraphWindow()
         {
             this.InitializeComponent();
-            this.DataContext = new DataWindowViewModel(this);
+            this.DataContext = new GraphWindowViewModel(this);
 #if DEBUG
             this.AttachDevTools();
 #endif

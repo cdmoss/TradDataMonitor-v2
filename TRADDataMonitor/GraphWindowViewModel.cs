@@ -14,7 +14,7 @@ using System.Text;
 
 namespace TRADDataMonitor
 {
-    public class DataWindowViewModel : INotifyPropertyChanged
+    public class GraphWindowViewModel : INotifyPropertyChanged
     {
         GraphWindow gw;
 
@@ -23,7 +23,12 @@ namespace TRADDataMonitor
         string _selectedSensor;
         string _selectedSerial;
 
-        bool _isLinux = true;
+        private DateTime _start;
+        private DateTime _end;
+        private DateTime _rangeMin;
+        private DateTime _rangeMax;
+
+        bool _isLinux = false;
 
         ObservableCollection<string> _serialNumbers = new ObservableCollection<string>();
         ObservableCollection<string> _sensorTypes = new ObservableCollection<string>();
@@ -83,6 +88,25 @@ namespace TRADDataMonitor
             }
         }
 
+        public DateTime Start
+        {
+            get { return _start; }
+            set
+            {
+                _start = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime End
+        {
+            get { return _start; }
+            set 
+            {
+                _start = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool IsLinux
         {
@@ -107,13 +131,13 @@ namespace TRADDataMonitor
             }
         }
 
-        public DataWindowViewModel(GraphWindow gw)
+        public GraphWindowViewModel(GraphWindow gw)
         {
             this.gw = gw;
 
             _data = new DataAccessor();
 
-            GetDistinctSerials();
+            GetDataRange();
         }
 
         public void GetDistinctSensors()
@@ -134,7 +158,7 @@ namespace TRADDataMonitor
             }
         }
 
-        public void GetDistinctSerials()
+        public void GetDataRange()
         {
             SerialNumbers.Clear();
 
@@ -156,7 +180,7 @@ namespace TRADDataMonitor
         {
             try
             {
-                DataTableToCSV(_data.GetSensorDataBySensorAndSerial(SelectedSensor, SelectedSerial));
+                DataTableToCSV(_data.GetSensorDataBySensorSerialDate(SelectedSensor, SelectedSerial, Start, End));
 
                 if (_isLinux)
                 {
@@ -178,22 +202,21 @@ namespace TRADDataMonitor
                 
                     System.Diagnostics.Process.Start("C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\GraphData\\graph.bat");
 
-                    //using (Process proc = new Process())
-                    //{
-                    //    proc.StartInfo.FileName = "C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\GraphData\\graph.bat";
-                    //    proc.StartInfo.CreateNoWindow = true;
-                    //    proc.StartInfo.CreateNoWindow = true;
-                    //    proc.StartInfo.RedirectStandardOutput = true;
-                    //    proc.Start();
-                    //    proc.WaitForExit();
-                    //}
+                    using (Process proc = new Process())
+                    {
+                        proc.StartInfo.FileName = "C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\GraphData\\graph.bat";
+                        proc.StartInfo.CreateNoWindow = true;
+                        proc.StartInfo.UseShellExecute = false;
+                        proc.StartInfo.RedirectStandardOutput = true;
+                        proc.Start();
+                        proc.WaitForExit();
+                    }
                     Graph = new Bitmap("C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\GraphData\\graph.png");
                 }
             }
             catch (Exception ex)
             {
-                throw;
-                MessageBox.Show(gw, $"An error occured while making the graph. Check that values are entered and try again", "Graph Error", MessageBox.MessageBoxButtons.Ok);
+                MessageBox.Show(gw, $"An error occured while making the graph. Check that values are entered and try again: \n \n Error Message: \n {ex.Message}", "Graph Error", MessageBox.MessageBoxButtons.Ok);
             }
         }
 

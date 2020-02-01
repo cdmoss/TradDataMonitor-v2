@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 // Added
 using Phidget22;
@@ -94,7 +95,7 @@ namespace TRADDataMonitor.SensorTypes
         public override String[] ProduceData()
         {
             string[] ret = new string[5];
-            ret[0] = lastTimestamp.ToString();
+            ret[0] = lastTimestamp.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             ret[1] = "Light (lx)";
             ret[2] = LiveData;
             ret[3] = SerialNumber.ToString();
