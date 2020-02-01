@@ -100,10 +100,10 @@ namespace TRADDataMonitor
 
         public DateTime End
         {
-            get { return _start; }
+            get { return _end; }
             set 
             {
-                _start = value;
+                _end = value;
                 OnPropertyChanged();
             }
         }
@@ -174,6 +174,22 @@ namespace TRADDataMonitor
             {
                 SerialNumbers.Add(value.serial.ToString());
             }
+
+            var dateResult = from dates in dt.AsEnumerable()
+                             select new
+                             {
+                                thisDate = dates.Field<DateTime>("DateTime")
+                             };
+
+            List<DateTime> dateTimes = new List<DateTime>();
+
+            foreach (var date in dateResult)
+            {
+                dateTimes.Add(date.thisDate);
+            }
+
+            _rangeMin = dateTimes.Min();
+            _rangeMax = dateTimes.Max();
         }
 
         void CreateGraph()
