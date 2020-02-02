@@ -210,7 +210,7 @@ namespace TRADDataMonitor.SensorTypes
         public string[] ProduceVOCData()
         {
             string[] ret = new string[3];
-            ret[0] = _lastTimestamp.ToString();
+            ret[0] = _lastTimestamp.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             ret[1] = "VOC (ppb)";
             ret[2] = _lastVOC.ToString();
             return ret;

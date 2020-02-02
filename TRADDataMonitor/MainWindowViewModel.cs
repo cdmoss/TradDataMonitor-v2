@@ -43,9 +43,6 @@ namespace TRADDataMonitor
         // for message boxes
         public MainWindow _mainWindow;
 
-        // reference picture 
-        Bitmap _phidgetImage { get; set; } = new Bitmap("phidget_hub_6_ports.png");
-
         // sensor list for combo boxes
         string[] _sensorTypes { get; set; } = { "Moisture", "Humidity/Air Temperature", "Soil Temperature", "Light", "Oxygen", "None" };
         #endregion
@@ -826,8 +823,14 @@ namespace TRADDataMonitor
             }
         }
 
+        // won't open a window if no data is found
         public void ViewData()
         {
+            if (_data.GetDateRange().Count == 0)
+            {
+                MessageBox.Show(_mainWindow, "There is no data to view", "No Data", MessageBox.MessageBoxButtons.Ok);
+                return;
+            }
             GraphWindow dw = new GraphWindow();
             dw.Show();
         }

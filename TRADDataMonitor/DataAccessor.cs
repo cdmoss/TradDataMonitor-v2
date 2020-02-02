@@ -538,80 +538,155 @@ namespace TRADDataMonitor
             }
         }
 
-        public DataTable GetAllSensorData()
+        // the following 4 methods are used to get data needed to generate graphs on the GraphWindowView
+        // they are ordered by their filtering priority:
+        // - First a date range is applied
+        // - then a serial number is chosen
+        // - then a sensor type is chosen, and a table with the above filters applied can be returned to the viewmodel
+
+        // called on graph window load, used to get date range of the current dataset
+        public List<DateTime> GetDateRange()
         {
-            DataTable dt = new DataTable();
             try
             {
-                string query = $@"select * from SensorData";
+                List<DateTime> dates = new List<DateTime>();
+
+                string query = $@"select DateTime from SensorData";
                 _tradDBConn.Open();
 
-                using (SQLiteDataAdapter adp = new SQLiteDataAdapter(query, _tradDBConn))
+                SQLiteCommand cmd = new SQLiteCommand(query, _tradDBConn);
+
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
-                    adp.Fill(dt);
+                    while (reader.Read())
+                    {
+                        dates.Add(DateTime.ParseExact(reader.GetString(0), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture));
+                    }
                 }
 
                 _tradDBConn.Close();
 
-                return dt;
+                return dates;
             }
-            catch //(Exception ex)
-            {
 
-                throw;
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
-        public DataTable GetSensorDataBySerial(string serial)
+        // used to populate serial number combo box and repopulate it when a new date range is chosen
+        public IEnumerable<string> GetHubsByDate(DateTime start, DateTime end)
         {
-            DataTable dt = new DataTable();
             try
             {
+                List<string> serials = new List<string>();
+
+                string startDate = start.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                string endDate = end.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+                string query = $@"select HubName from SensorData where
+                                DateTime between '{startDate}' and '{endDate}'";
+
+                _tradDBConn.Open();
+
+                SQLiteCommand cmd = new SQLiteCommand(query, _tradDBConn);
+
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        serials.Add(reader.GetString(0));
+                    }
+                }
+
+                _tradDBConn.Close();
+
+                return serials;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // used to populate the sensor type combobox when a new serialnumber is chosen
+        public IEnumerable<string> GetSensorsByHub(string hub, DateTime start, DateTime end)
+        {
+            try
+            {
+                List<string> sensors = new List<string>();
+
+                string query = $@"select SensorType from SensorData
+                                  where HubName = '{hub}' and
+                                  DateTime between 
+                                  '{start.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)}' and
+                                  '{end.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)}'";
+
+                _tradDBConn.Open();
+
+                SQLiteCommand cmd = new SQLiteCommand(query, _tradDBConn);
+
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        sensors.Add(reader.GetString(0));
+                    }
+                }
+
+                _tradDBConn.Close();
+
+                return sensors;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // used to get a filtered table of the sensor data after all filters are chosen
+        public DataTable GetSensorData(string hub, string sensorType, DateTime start, DateTime end)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("SensorType"));
+                dt.Columns.Add(new DataColumn("Data"));
+                dt.Columns.Add(new DataColumn("DateTime"));
+                dt.Columns.Add(new DataColumn("SerialNumber"));
+                dt.Columns.Add(new DataColumn("HubName"));
+
                 string query = $@"select * from SensorData
-                                  where SerialNumber = '{serial}'";
+                                  where HubName = '{hub}' and
+                                  
+                                  DateTime between '{start.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)}' and
+                                  '{end.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)}'";
+
                 _tradDBConn.Open();
 
-                using (SQLiteDataAdapter adp = new SQLiteDataAdapter(query, _tradDBConn))
+                SQLiteCommand cmd = new SQLiteCommand(query);
+
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
-                    adp.Fill(dt);
+                    while (reader.Read())
+                    {
+                        DataRow dr = dt.NewRow();
+                        dr["SensorType"] = reader.GetString(0);
+                        dr["Data"] = Convert.ToInt32(reader.GetString(1).Split(' ')[0]);
+                        dr["DateTime"] = DateTime.ParseExact(reader.GetString(2), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                        dr["SerialNumber"] = reader.GetString(3);
+                        dr["HubName"] = reader.GetString(4);
+                    }
                 }
 
                 _tradDBConn.Close();
 
                 return dt;
             }
-            catch //(Exception ex)
+            catch (Exception ex)
             {
-
-                throw;
-            }
-        }
-
-        public DataTable GetSensorDataBySensorSerialDate(string sensorType, string serial, DateTime start, DateTime end)
-        {
-            DataTable dt = new DataTable();
-            try
-            {
-                string query = $@"select * from SensorData 
-                                where SensorType like '%{sensorType}%' and 
-                                SerialNumber = {serial} and
-                                DateTime = {start.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)} and
-                                DateTime = {start.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)}";
-                _tradDBConn.Open();
-
-                using (SQLiteDataAdapter adp = new SQLiteDataAdapter(query, _tradDBConn))
-                {
-                    adp.Fill(dt);
-                }
-
-                _tradDBConn.Close();
-
-                return dt;
-            }
-            catch //(Exception ex)
-            {
-
-                throw;
+                throw ex;
             }
         }
     }

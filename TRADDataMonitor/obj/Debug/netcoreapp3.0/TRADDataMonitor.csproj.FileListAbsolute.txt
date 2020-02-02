@@ -718,3 +718,4 @@ C:\Users\cheze\Desktop\Trad-Data-Monitor-3\TRADDataMonitor\obj\Debug\netcoreapp3
 C:\Users\cheze\Desktop\Trad-Data-Monitor-3\TRADDataMonitor\obj\Debug\netcoreapp3.0\TRADDataMonitor.csproj.CopyComplete
 C:\Users\cheze\Desktop\Trad-Data-Monitor-3\TRADDataMonitor\obj\Debug\netcoreapp3.0\TRADDataMonitor.dll
 C:\Users\cheze\Desktop\Trad-Data-Monitor-3\TRADDataMonitor\obj\Debug\netcoreapp3.0\TRADDataMonitor.pdb
+C:\Users\chase.mossing2\Desktop\Trad-Data-Monitor-3\TRADDataMonitor\obj\Debug\netcoreapp3.0\TRADDataMonitor.csprojAssemblyReference.cache

@@ -21,16 +21,14 @@ namespace TRADDataMonitor
         DataAccessor _data;
 
         string _selectedSensor;
-        string _selectedSerial;
+        string _selectedHub;
 
         private DateTime _start;
         private DateTime _end;
-        private DateTime _rangeMin;
-        private DateTime _rangeMax;
 
         bool _isLinux = false;
 
-        ObservableCollection<string> _serialNumbers = new ObservableCollection<string>();
+        ObservableCollection<string> _hubs = new ObservableCollection<string>();
         ObservableCollection<string> _sensorTypes = new ObservableCollection<string>();
 
         Bitmap _graph;
@@ -61,29 +59,29 @@ namespace TRADDataMonitor
             }
         }
 
-        public ObservableCollection<string> SerialNumbers
+        public ObservableCollection<string> Hubs
         {
             get
             {
-                return _serialNumbers;
+                return _hubs;
             }
             set
             {
-                _serialNumbers = value;
+                _hubs = value;
                 OnPropertyChanged();
             }
         }
 
-        public string SelectedSerial
+        public string SelectedHub
         {
             get 
             { 
-                return _selectedSerial; 
+                return _selectedHub; 
             }
             set 
             {
-                _selectedSerial = value;
-                GetDistinctSensors();
+                _selectedHub = value;
+                GetSensorsFromHub();
                 OnPropertyChanged();
             }
         }
@@ -94,6 +92,10 @@ namespace TRADDataMonitor
             set
             {
                 _start = value;
+                if (_start != DateTime.MinValue)
+                {
+                    GetHubsFromDateRange();
+                }
                 OnPropertyChanged();
             }
         }
@@ -104,6 +106,10 @@ namespace TRADDataMonitor
             set 
             {
                 _end = value;
+                if (_end != DateTime.MinValue)
+                {
+                    GetHubsFromDateRange();
+                }
                 OnPropertyChanged();
             }
         }
@@ -137,66 +143,68 @@ namespace TRADDataMonitor
 
             _data = new DataAccessor();
 
-            GetDataRange();
+            InitializeDateRange();
         }
 
-        public void GetDistinctSensors()
+        // called on program load, the values are used to limit the range of dates the 
+        // user can select to the date range of the current dataset
+        public void InitializeDateRange()
         {
-            SensorTypes.Clear();
+            List<DateTime> dates = _data.GetDateRange();
 
-            DataTable dt = _data.GetSensorDataBySerial(SelectedSerial);
-
-            var sensorResult = dt.AsEnumerable()
-               .Select(values => new
-               {
-                   sensor = values.Field<string>("SensorType")
-               }).Distinct();
-
-            foreach (var value in sensorResult)
-            {
-                SensorTypes.Add(value.sensor.ToString());
-            }
+            Start = dates.Min();
+            End = dates.Max();
         }
 
-        public void GetDataRange()
+        // called when a date range is picked, populates the 
+        // serial number combobox with only the serials used within the chosen date range
+        public void GetHubsFromDateRange()
         {
-            SerialNumbers.Clear();
-
-            DataTable dt = _data.GetAllSensorData();
-
-            var serialResult = dt.AsEnumerable()
-                .Select(values => new
-                {
-                    serial = values.Field<string>("SerialNumber")
-                }).Distinct();
-
-            foreach (var value in serialResult)
-            {
-                SerialNumbers.Add(value.serial.ToString());
-            }
-
-            var dateResult = from dates in dt.AsEnumerable()
-                             select new
-                             {
-                                thisDate = dates.Field<DateTime>("DateTime")
-                             };
-
-            List<DateTime> dateTimes = new List<DateTime>();
-
-            foreach (var date in dateResult)
-            {
-                dateTimes.Add(date.thisDate);
-            }
-
-            _rangeMin = dateTimes.Min();
-            _rangeMax = dateTimes.Max();
+            Hubs = new ObservableCollection<string>(_data.GetHubsByDate(_start, _end).Distinct());
         }
 
+        // called when a serial number is picked, populates the 
+        // sensor type combobox with only the sensors associated with the chosen serial number
+        public void GetSensorsFromHub()
+        {
+            SensorTypes = new ObservableCollection<string>(_data.GetSensorsByHub(_selectedHub, _start, _end).Distinct());
+        }
+
+        // makes a .csv file containing the filtered sensor data which is turned into a .png of a graph by python
+        public void MakeDataFile()
+        {
+            DataTable dt = _data.GetSensorData(_selectedHub, _selectedSensor, _start, _end);
+
+            StringBuilder sb = new StringBuilder();
+
+            IEnumerable<string> columnNames = dt.Columns.Cast<DataColumn>()
+                .Select(column => column.ColumnName);
+            sb.AppendLine(string.Join(",", columnNames));
+
+            foreach (DataRow row in dt.Rows)
+            {
+                IEnumerable<string> fields = row.ItemArray.Select(field => field.ToString());
+                sb.AppendLine(string.Join(",", fields));
+            }
+
+            if (_isLinux)
+            {
+                File.WriteAllText("/home/pi/Trad-Data-Monitor-3/GraphData/data.csv", sb.ToString());
+            }
+            else
+            {
+                File.WriteAllText("C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\GraphData\\data.csv", sb.ToString());
+            }
+        }
+
+        // does what the name says, called when create graph button is clicked. 
+        // starts a cmd.exe (or bash session if on linux)
+        // that runs a python script to make a graph out of the .csv file made at the beginning of the method
         void CreateGraph()
         {
             try
             {
-                DataTableToCSV(_data.GetSensorDataBySensorSerialDate(SelectedSensor, SelectedSerial, Start, End));
+                MakeDataFile();
 
                 if (_isLinux)
                 {
@@ -215,9 +223,6 @@ namespace TRADDataMonitor
                 }
                 else
                 {
-                
-                    System.Diagnostics.Process.Start("C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\GraphData\\graph.bat");
-
                     using (Process proc = new Process())
                     {
                         proc.StartInfo.FileName = "C:\\Users\\chase.mossing2\\Desktop\\Trad-Data-Monitor-3\\GraphData\\graph.bat";
