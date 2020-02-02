@@ -21,25 +21,26 @@ namespace TRADDataMonitor
 {
     public class DataAccessor
     {
+        #region private variables
         // Variables for the sensor connections and wireless connection
 
-        // connection string and object
+        // SQLite connection string and the SQLiteConnection object that uses the connection string
         private string _tradDBConnectionString = "Data Source=TradDB.sqlite;Version=3";
         private SQLiteConnection _tradDBConn;
+        #endregion
 
-        // Variables for sensors and hubs      
-        
+        #region public properties
+        // Properties for sending emails, setting sensor thresholds, etc.
 
-        // Timer for data collection
-        
-
-        // Properties
+        #region email
         public string  RecipientEmailAddress { get; set; }
         public string SenderEmailAddress { get; set; }
         public string SenderEmailPassword { get; set; }
         public string SenderEmailSmtpAddress { get; set; }
         public int SenderEmailSmtpPort { get; set; }
-        public int DataCollectionIntervalTime { get; set; }
+        #endregion
+
+        #region thresholds
         public double MinSoilTemperature { get; set; }
         public double MinAirTemperature { get; set; }
         public double MinHumidity { get; set; }
@@ -54,18 +55,30 @@ namespace TRADDataMonitor
         public double MaxOxygen { get; set; }
         public double MaxCO2 { get; set; }
         public double MaxVOC { get; set; }
+        #endregion
+
+        #region misc
+        public int DataCollectionIntervalTime { get; set; }
         public bool GpsEnabled { get; set; }
         public ItemsChangeObservableCollection<VintHub> VintHubs { get; set; }
+        #endregion
 
-        // Constructor
+        #endregion
+
+        #region contructor
+        // Constructor; takes no parameters
         public DataAccessor()
         {
+            // Instantiates the SQLiteConnection with the connection string when the class itself is instantiated
             _tradDBConn = new SQLiteConnection(_tradDBConnectionString);
         }
+        #endregion
 
-        // Input Validation Methods
+        // TODO: Add the reamining comments to this section
+        #region public methods
 
-        // Method to create a phidget class based on the configuration combo box and assign it to the correct hub port
+        #region create sensors and hubs
+        // Creates a phidget class based on the configuration combo box and assigns it to the correct hub port
         public PhidgetSensor CreateSensor(string sensorName, int hubPort, string serial, string hubName, bool wireless)
         {
             PhidgetSensor ret = null;
@@ -74,6 +87,7 @@ namespace TRADDataMonitor
                 case "Moisture":
                     ret = new MyMoistureSensor(hubPort, sensorName, hubName, serial, MinMoisture, MaxMoisture, wireless);
                     break;
+                // TODO: Replace the light sensor with the PH sensor and set an actual min and max threshold
                 case "Light":
                     ret = new MyLightSensor(hubPort, sensorName, hubName, serial, -1, -1, wireless);
                     break;
@@ -93,7 +107,7 @@ namespace TRADDataMonitor
             return ret;
         }
 
-        // creates a new empty hub
+        // Creates a new empty hub that can be filled with Phidget sensors as needed
         public VintHub CreateNewHub(string serial)
         { 
             PhidgetSensor[] sensors = {
@@ -108,22 +122,28 @@ namespace TRADDataMonitor
 
             return ret;
         }
+        #endregion
 
-        // loads configuration from database
+        #region configuration to/from database
+        // Loads the configuration for the general configuration (ie the email config) and the sensor configuration
         public string LoadConfiguration()
         {
             string result = "";
-            string getGeneralConfigQuery = $@"select * from GeneralConfig";
-            string getVintConfig = "select * from VintHubConfig";
-            // string getExtensionConfig = "select * from ExtensionHubConfig";
 
+            // SQLite commands to select everything from the GeneralConfig table
+            string getGeneralConfigQuery = $@"select * from GeneralConfig";
+            // SQLite commands to select everything from the GeneralConfig table
+            string getVintConfig = "select * from VintHubConfig";
+
+            // Checks if a config exsists
             if (CheckForConfig())
             {
                 try
                 {
+                    // If it does open the connection to the database
                     _tradDBConn.Open();
 
-                    // Loads General Configuration Values
+                    // Reads through the database and set the values in the respective public property
                     using (SQLiteCommand cmd = new SQLiteCommand(getGeneralConfigQuery, _tradDBConn))
                     {
                         using (SQLiteDataReader reader = cmd.ExecuteReader())
@@ -197,15 +217,17 @@ namespace TRADDataMonitor
                     }
                     VintHubs = new ItemsChangeObservableCollection<VintHub>();
 
-                    // loads all sets of saved VINT hub configs, 
+                    // Reads through the database and creates the sensors for the vint hub based on what it finds
                     using (SQLiteCommand cmd = new SQLiteCommand(getVintConfig, _tradDBConn))
                     {
                         using (SQLiteDataReader reader = cmd.ExecuteReader())
                         {
+                            // If the database is empty then it creates a default hub which is empty (ie has no sensors)
                             if (!reader.HasRows)
                             {
                                 VintHubs.Add(CreateNewHub("none"));                                
                             }
+                            // If the databse is not empty then it reads the values and creates the corresponding hubs with the correct sensors
                             else
                             {
                                 while (reader.Read())
@@ -228,8 +250,10 @@ namespace TRADDataMonitor
                     }
                     _tradDBConn.Close();
 
+                    // Return good as the database was succesfully read
                     result = "good";
                 }
+                // If an error occurs return the error message and close the connection
                 catch (Exception ex)
                 {
                     result = ex.Message;
@@ -240,12 +264,13 @@ namespace TRADDataMonitor
             return result;
         }
 
-        // saves configuration to database
+        // Saves the current configuration to the configuration database
         public string SaveConfiguration()
         {
             string result = "";
 
-            //query to create new GeneralConfig
+            // Query to create a new GeneralConfig table
+            // TODO: Replace the string query with a LINQ query
             string createGeneralConfigQuery = $@"insert into GeneralConfig
                                                     values(
                                                         @RecipientEmail,
@@ -271,7 +296,8 @@ namespace TRADDataMonitor
                                                         @Gps
                                                         )";
 
-            //query to update General config
+            // Query to update the GeneralConfig table
+            // TODO: Replace the string query with a LINQ query
             string updateGeneralConfigQuery = $@"update GeneralConfig
                                                     set 
                                                     RecipientEmail = @RecipientEmail,
@@ -296,7 +322,8 @@ namespace TRADDataMonitor
                                                     MaxCO2 = @MaxCO2,
                                                     Gps = @Gps";
 
-            //query to create new hub config
+            // Qery to create new HubConfig table
+            // TODO: Replace the string query with a LINQ query
             string createVintHubConfigQuery = $@"insert into VintHubConfig (HubName, SerialNumber, Port0, Port1, Port2, Port3, Port4, Port5, Wireless) 
                                                     values(
                                                         @HubName,
@@ -315,7 +342,7 @@ namespace TRADDataMonitor
 
                 List<SQLiteCommand> vintConfigCmds = new List<SQLiteCommand>();
 
-                // make sure tables are built
+                // Make sure tables are built before inserting data
                 BuildDataStores();
 
                 //if (!CheckForConfig())
@@ -323,7 +350,7 @@ namespace TRADDataMonitor
 
                  _tradDBConn.Open();
 
-                // clear all hub configs
+                // Clears all the hub configurations
                 SQLiteCommand deleteGeneralCmd = new SQLiteCommand("delete from GeneralConfig", _tradDBConn);
                 deleteGeneralCmd.ExecuteNonQuery();
 
@@ -339,6 +366,7 @@ namespace TRADDataMonitor
 
                 using (generalConfigCmd)
                 {
+                    // Parameters for the queries, used to prevent SQLinjections
                     generalConfigCmd.Parameters.AddWithValue("@RecipientEmail", RecipientEmailAddress);
                     generalConfigCmd.Parameters.AddWithValue("@SenderEmail", SenderEmailAddress);
                     generalConfigCmd.Parameters.AddWithValue("@SenderPassword", SenderEmailPassword);
@@ -364,13 +392,14 @@ namespace TRADDataMonitor
                     generalConfigCmd.ExecuteNonQuery();
                 }
 
-                // clear all hub configs
+                // Clears all the hub configurations
                 SQLiteCommand deleteHubCmd = new SQLiteCommand("delete from VintHubConfig", _tradDBConn);
                 deleteHubCmd.ExecuteNonQuery();
 
-                // create a command for each hub detected
+                // Creates a command for each hub detected
                 foreach (VintHub hub in VintHubs)
                 {
+                    // More SQL parameters
                     SQLiteCommand cmd = new SQLiteCommand(createVintHubConfigQuery, _tradDBConn);
                     cmd.Parameters.AddWithValue("@HubName", hub.HubName);
                     cmd.Parameters.AddWithValue("@Serial", hub.SerialNumber);
@@ -392,10 +421,13 @@ namespace TRADDataMonitor
                 //    cmd.ExecuteNonQuery();
                 //}
 
+                // Closes the connection
                 _tradDBConn.Close();
 
+                // Return good, as the query was able to execute
                 result = "good";
             }
+            // Return the error message when an exception has been encountered
             catch (Exception ex)
             {
                 _tradDBConn.Close();
@@ -405,35 +437,43 @@ namespace TRADDataMonitor
             return result;
         }
 
+        // Checks if a configuration database already exists
         public bool CheckForConfig()
         {
             bool configExists = false;
             DataTable test = new DataTable();
 
-            //query to check if config exists
+            // Query to check if the GeneralConfig table exists
             string checkQuery = $@"select * from GeneralConfig";
 
+            // Checks if the SQLite database for the configuration already exists
             if (File.Exists("TradDB.sqlite"))
             {
+                // Opens the connection
                 _tradDBConn.Open();
                 using (SQLiteDataAdapter adp = new SQLiteDataAdapter(checkQuery, _tradDBConn))
                 {
+                    // Fills a DataTable
                     adp.Fill(test);
+                    // If the DataTable has more than 0 rows then the configuration exists
                     if (test.Rows.Count > 0)
                     {
                         configExists = true;
                     }
                 }
+                // Closes the connection
                 _tradDBConn.Close();
             }
-
             return configExists;
         }
 
+        // Creates all the tables in the configuration database if they do not already exists
         public bool BuildDataStores()
         {
-            bool success;
+            bool success = false;
 
+            // SQLite query to create all the tables if they do not already exists
+            // TODO: Replace the string query with a LINQ query
             string createTables = $@"create table if not exists SensorData(
                                             SensorType text,
                                             Data real,
@@ -489,15 +529,20 @@ namespace TRADDataMonitor
 
             try
             {
+                // Opens the connection
                 _tradDBConn.Open();
                 using (SQLiteCommand cmd = new SQLiteCommand(createTables, _tradDBConn))
                 {
+                    // Executes the query
                     cmd.ExecuteNonQuery();
                 }
+                // Closes the connection
                 _tradDBConn.Close();
 
+                // Query was succesfully executed
                 success = true;
             }
+            // If an exception is encountered then close the connection
             catch (Exception ex)
             {
                 _tradDBConn.Close();
@@ -507,11 +552,12 @@ namespace TRADDataMonitor
             return success;
         }
 
-        // inserts the sensor data into an SQLite DB
+        // Inserts the sensor data into an SQLite DB
         public string InsertData(string collectionTime, string sensorType, string value, string serial, string hub)
         {
             try
             {
+                // TODO: Replace the string query with a LINQ query
                 string query = $@"insert into SensorData (SensorType, Data, DateTime, SerialNumber, HubName)
                                 values(
                                     '{sensorType}',
@@ -519,28 +565,35 @@ namespace TRADDataMonitor
                                     '{collectionTime}',
                                     '{serial}',
                                     '{hub}')";
-
+                // Opens the connection
                 _tradDBConn.Open();
 
                 using (SQLiteCommand cmd = new SQLiteCommand(query, _tradDBConn))
                 {
+                    // Executes the query
                     cmd.ExecuteNonQuery();
                 }
+                // The query was executed successfully, return good
                 return "good";
             }
+            // The query was not executed succsesfully, return the error message
             catch (Exception ex)
             {
                 return $"An error occured while collection data: \n{ex.Message} \n \n Data collection still running.";
             }
             finally
             {
+                // close the database conncetion
                 _tradDBConn.Close();
             }
         }
+        #endregion
 
-        // the following 4 methods are used to get data needed to generate graphs on the GraphWindowView
-        // they are ordered by their filtering priority:
-        // - First a date range is applied
+        // TODO: Add the reamining comments to this section
+        #region graphing methods
+        // The following 4 methods are used to get data needed to generate graphs on the GraphWindowView
+        // They are ordered by their filtering priority:
+        // - first a date range is applied
         // - then a serial number is chosen
         // - then a sensor type is chosen, and a table with the above filters applied can be returned to the viewmodel
 
@@ -551,7 +604,9 @@ namespace TRADDataMonitor
             {
                 List<DateTime> dates = new List<DateTime>();
 
+                // TODO: Replace the string query with a LINQ query
                 string query = $@"select DateTime from SensorData";
+                // Opens the connection to the database
                 _tradDBConn.Open();
 
                 SQLiteCommand cmd = new SQLiteCommand(query, _tradDBConn);
@@ -560,22 +615,22 @@ namespace TRADDataMonitor
                 {
                     while (reader.Read())
                     {
+                        // Reads the dates from the database and adds them to a list of dates
                         dates.Add(DateTime.ParseExact(reader.GetString(0), "MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture));
                     }
                 }
-
+                // Closes the connection
                 _tradDBConn.Close();
 
                 return dates;
             }
-
             catch (Exception ex)
             {
                 throw ex;
             }
         }
 
-        // used to populate serial number combo box and repopulate it when a new date range is chosen
+        // Used to populate serial number combo box and repopulate it when a new date range is chosen
         public IEnumerable<string> GetHubsByDate(DateTime start, DateTime end)
         {
             try
@@ -610,7 +665,7 @@ namespace TRADDataMonitor
             }
         }
 
-        // used to populate the sensor type combobox when a new serialnumber is chosen
+        // Used to populate the sensor type combobox when a new serialnumber is chosen
         public IEnumerable<string> GetSensorsByHub(string hub, DateTime start, DateTime end)
         {
             try
@@ -645,7 +700,7 @@ namespace TRADDataMonitor
             }
         }
 
-        // used to get a filtered table of the sensor data after all filters are chosen
+        // Used to get a filtered table of the sensor data after all filters are chosen
         public DataTable GetSensorData(string hub, string sensorType, DateTime start, DateTime end)
         {
             try
@@ -689,5 +744,8 @@ namespace TRADDataMonitor
                 throw ex;
             }
         }
+        #endregion
+
+        #endregion
     }
 }

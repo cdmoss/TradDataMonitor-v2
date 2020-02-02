@@ -34,22 +34,22 @@
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MessageBox.xaml">
+    <EmbeddedResource Include="Avalonia\MessageBox.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="VintHubWindow.xaml">
+    <EmbeddedResource Include="Avalonia\VintHubWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GraphWindow.xaml">
+    <EmbeddedResource Include="Avalonia\GraphWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="VintHubWindow.xaml.cs">
+    <Compile Update="Avalonia\VintHubWindow.xaml.cs">
       <DependentUpon>VintHubWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
