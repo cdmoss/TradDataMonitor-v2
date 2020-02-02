@@ -17,8 +17,10 @@
     <AvaloniaResource Remove="VintHubWindow.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove=".Rhistory" />
     <None Remove="GraphWindow.xaml" />
     <None Remove="MessageBox.xaml" />
+    <None Remove="TradDB.sqlite" />
     <None Remove="VintHubWindow.xaml" />
   </ItemGroup>
   <ItemGroup>

@@ -74,7 +74,7 @@ namespace TRADDataMonitor
         }
         #endregion
 
-        // TODO: Add the reamining comments to this section
+        // TODO: Integrate entity framework once we learn it in class
         #region public methods
 
         #region create sensors and hubs
@@ -589,7 +589,7 @@ namespace TRADDataMonitor
         }
         #endregion
 
-        // TODO: Add the reamining comments to this section
+        // TODO: Integrate entity framework once we learn it in class
         #region graphing methods
         // The following 4 methods are used to get data needed to generate graphs on the GraphWindowView
         // They are ordered by their filtering priority:
@@ -602,13 +602,15 @@ namespace TRADDataMonitor
         {
             try
             {
+                // Create a list of dateTimes
                 List<DateTime> dates = new List<DateTime>();
 
                 // TODO: Replace the string query with a LINQ query
                 string query = $@"select DateTime from SensorData";
-                // Opens the connection to the database
+                // Open the connection to the database
                 _tradDBConn.Open();
 
+                // Create the SQLiteCommand from the query
                 SQLiteCommand cmd = new SQLiteCommand(query, _tradDBConn);
 
                 using (SQLiteDataReader reader = cmd.ExecuteReader())
@@ -622,6 +624,7 @@ namespace TRADDataMonitor
                 // Closes the connection
                 _tradDBConn.Close();
 
+                // Returns the list of dates
                 return dates;
             }
             catch (Exception ex)
@@ -630,33 +633,41 @@ namespace TRADDataMonitor
             }
         }
 
-        // Used to populate serial number combo box and repopulate it when a new date range is chosen
+        // Used to populate the serial number combo box and repopulate it when a new date range is chosen
         public IEnumerable<string> GetHubsByDate(DateTime start, DateTime end)
         {
             try
             {
+                // Creates a list of serial numbers
                 List<string> serials = new List<string>();
 
+                // Sets the start date and end date based on the dateTime parameters
                 string startDate = start.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                 string endDate = end.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
 
+                // Sets the SQLite query string
+                // TODO: Replace the string query with a LINQ query
                 string query = $@"select HubName from SensorData where
                                 DateTime between '{startDate}' and '{endDate}'";
 
+                // Opens the connection to the database
                 _tradDBConn.Open();
 
+                // Creates the SQLiteCommand
                 SQLiteCommand cmd = new SQLiteCommand(query, _tradDBConn);
 
                 using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
+                    // Reads through the database based on the SQLiteCommand
                     while (reader.Read())
                     {
+                        // Finds the serial numbers and adds them to the list
                         serials.Add(reader.GetString(0));
                     }
                 }
-
+                // Closes the connection to the database
                 _tradDBConn.Close();
-
+                // Returns the list of serial numbers
                 return serials;
             }
             catch (Exception ex)
@@ -670,28 +681,35 @@ namespace TRADDataMonitor
         {
             try
             {
+                // Creates a list of sensors
                 List<string> sensors = new List<string>();
 
+                // Sets the SQLite query
+                // TODO: Replace the string query with a LINQ query
                 string query = $@"select SensorType from SensorData
                                   where HubName = '{hub}' and
                                   DateTime between 
                                   '{start.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)}' and
                                   '{end.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)}'";
 
+                // Opens the connection
                 _tradDBConn.Open();
 
+                // Creates the SQLiteCommand
                 SQLiteCommand cmd = new SQLiteCommand(query, _tradDBConn);
 
                 using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
+                    // Reads the existing sensors and adds them to the list
                     while (reader.Read())
                     {
                         sensors.Add(reader.GetString(0));
                     }
                 }
 
+                // Closes the connection
                 _tradDBConn.Close();
-
+                // Returns the list of sensors
                 return sensors;
             }
             catch (Exception ex)
@@ -705,6 +723,7 @@ namespace TRADDataMonitor
         {
             try
             {
+                // Creates a datatable and columns for the repsective values
                 DataTable dt = new DataTable();
                 dt.Columns.Add(new DataColumn("SensorType"));
                 dt.Columns.Add(new DataColumn("Data"));
@@ -712,18 +731,24 @@ namespace TRADDataMonitor
                 dt.Columns.Add(new DataColumn("SerialNumber"));
                 dt.Columns.Add(new DataColumn("HubName"));
 
+                // Sets the SQLite query to return all values where the hub name is equal to the selected hub and the dateTimes fall within the selcted dateTime range
+                // TODO: Replace the string query with a LINQ query
                 string query = $@"select * from SensorData
                                   where HubName = '{hub}' and
                                   
                                   DateTime between '{start.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)}' and
                                   '{end.ToString("MM-dd-yyyy HH:mm:ss", CultureInfo.InvariantCulture)}'";
 
+                // Opens the connection
                 _tradDBConn.Open();
 
+                // Creates the SQLiteCommand
                 SQLiteCommand cmd = new SQLiteCommand(query);
+
 
                 using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
+                    // Read through the database and sets the DataTable rows to the correct values for the selected hub and dateTime range
                     while (reader.Read())
                     {
                         DataRow dr = dt.NewRow();
@@ -734,9 +759,9 @@ namespace TRADDataMonitor
                         dr["HubName"] = reader.GetString(4);
                     }
                 }
-
+                // Closes the connection
                 _tradDBConn.Close();
-
+                // Returns the dataTable
                 return dt;
             }
             catch (Exception ex)

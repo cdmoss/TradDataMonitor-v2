@@ -12,12 +12,18 @@ namespace TRADDataMonitor.SensorTypes
 {
     public class AirQualitySensor : INotifyPropertyChanged
     {
-        Timer _AirQualityData, _VOCAlerts, _CO2Alerts, _VOCAlertCooldown, _CO2AlertCooldown;
-        int _lastVOC, _lastCO2;
-        double _minVOC, _maxVOC, _minCO2, _maxCO2;
-        DateTime _lastTimestamp, lastVOCThresholdBrokenDate, lastCO2ThresholdBrokenDate;
+        // Variables for data collection, thresholds, and email alerts
+        #region private variables
+        private int _lastVOC, _lastCO2;
+        private double _minVOC, _maxVOC, _minCO2, _maxCO2;
+        private DateTime _lastTimestamp, lastVOCThresholdBrokenDate, lastCO2ThresholdBrokenDate;
         private string _liveData = "";
-        private bool VOCEmailTimerOnCooldown = false, CO2EmailTimerOnCooldown = false;
+        private bool _VOCEmailTimerOnCooldown = false, _CO2EmailTimerOnCooldown = false;
+        #endregion
+
+        #region timer and delegates
+        // Timers needed for email alerts
+        Timer _airQualityData, _VOCAlerts, _CO2Alerts, _VOCAlertCooldown, _CO2AlertCooldown;
 
         // Delegate for email alert
         public delegate void EmailAlertHandler(double minThresh, double maxThresh, string sensor, double val, string alertType);
@@ -26,7 +32,9 @@ namespace TRADDataMonitor.SensorTypes
         // Delegate for email reply
         public delegate string EmailCheckReplies(DateTime alertSent, string alertSubject);
         public EmailCheckReplies checkReplies;
+        #endregion
 
+        #region public properites
         public string LiveData
         {
             get { return _liveData; }
@@ -36,17 +44,20 @@ namespace TRADDataMonitor.SensorTypes
                 OnPropertyChanged();
             }
         }
+        #endregion
 
+        #region constructor
+        // Constructor: Assigns the values of the parameters to thier repsective private properties
         public AirQualitySensor(double minV, double maxV, double minC, double maxC)
         {
             
-            // assign thresholds
+            // Assign the VOC and CO2 thresholds
             _minVOC = minV;
             _maxVOC = maxV;
             _minCO2 = minC;
             _maxCO2 = maxC;
 
-            // create a VOC alert timer for instance of sensor
+            // Create a VOC alert timer for the instance of sensor
             _VOCAlerts = new Timer(1800000);
             _VOCAlerts.AutoReset = true;
             _VOCAlerts.Elapsed += _VOCAlerts_Elapsed;
@@ -55,7 +66,7 @@ namespace TRADDataMonitor.SensorTypes
             _VOCAlertCooldown.AutoReset = true;
             _VOCAlertCooldown.Elapsed += _VOCAlertCooldown_Elapsed;
 
-            // create a CO2 alert timer for instance of sensor
+            // Create a CO2 alert timer for the instance of sensor
             _CO2Alerts = new Timer(1800000);
             _CO2Alerts.AutoReset = true;
             _CO2Alerts.Elapsed += _CO2Alerts_Elapsed;
@@ -64,14 +75,17 @@ namespace TRADDataMonitor.SensorTypes
             _CO2AlertCooldown.AutoReset = true;
             _CO2AlertCooldown.Elapsed += _CO2Alerts_Elapsed;
 
-            // create data timer for instance of sensor
-            _AirQualityData = new Timer(1000);
-            _AirQualityData.AutoReset = true;
-            _AirQualityData.Elapsed += new ElapsedEventHandler(GetWebData);
+            // Create data timer for the instance of sensor
+            _airQualityData = new Timer(1000);
+            _airQualityData.AutoReset = true;
+            _airQualityData.Elapsed += new ElapsedEventHandler(GetWebData);
         }
+        #endregion
 
+        #region public methods
         public void OpenConnection()
         {
+           // 
            // try
            // {
            //     HtmlWeb web = new HtmlWeb();
@@ -102,13 +116,13 @@ namespace TRADDataMonitor.SensorTypes
            // {
            //     LiveData = "An error occured with the air quality sensor.";
            // }
-            _AirQualityData.Start();
+            _airQualityData.Start();
         }
 
         public void CloseConnection()
         {
 
-            _AirQualityData.Stop();
+            _airQualityData.Stop();
         }
 
         // gets data from nodemcu webserver
@@ -125,7 +139,7 @@ namespace TRADDataMonitor.SensorTypes
                 LiveData = "VOC: " + _lastVOC + " ppb,  CO2: " + _lastCO2 + " ppm";
 
                 // Alerts for VOC
-                if ((_lastVOC < _minVOC || _lastVOC > _maxVOC) && !_VOCAlerts.Enabled && !VOCEmailTimerOnCooldown)
+                if ((_lastVOC < _minVOC || _lastVOC > _maxVOC) && !_VOCAlerts.Enabled && !_VOCEmailTimerOnCooldown)
                 {
                     lastVOCThresholdBrokenDate = DateTime.Now;
                     thresholdBroken?.Invoke(_minVOC, _maxVOC, "VOC", _lastVOC, "broken");
@@ -133,7 +147,7 @@ namespace TRADDataMonitor.SensorTypes
                 }
 
                 // Alerts for CO2
-                if ((_lastCO2 < _minCO2 || _lastCO2 > _maxCO2) && !_CO2Alerts.Enabled && !CO2EmailTimerOnCooldown)
+                if ((_lastCO2 < _minCO2 || _lastCO2 > _maxCO2) && !_CO2Alerts.Enabled && !_CO2EmailTimerOnCooldown)
                 {
                     lastCO2ThresholdBrokenDate = DateTime.Now;
                     thresholdBroken?.Invoke(_minCO2, _maxCO2, "CO2", _lastCO2, "broken");
@@ -152,7 +166,7 @@ namespace TRADDataMonitor.SensorTypes
             if (replyMessage.Contains("OK") || replyMessage.Contains("Ok") || replyMessage.Contains("ok"))
             {
                 _VOCAlertCooldown.Enabled = true;
-                VOCEmailTimerOnCooldown = true;
+                _VOCEmailTimerOnCooldown = true;
                 _VOCAlerts.Enabled = false;
 
             }
@@ -176,7 +190,7 @@ namespace TRADDataMonitor.SensorTypes
             if (replyMessage.Contains("OK") || replyMessage.Contains("Ok") || replyMessage.Contains("ok"))
             {
                 _CO2AlertCooldown.Enabled = true;
-                CO2EmailTimerOnCooldown = true;
+                _CO2EmailTimerOnCooldown = true;
                 _CO2Alerts.Enabled = false;
 
             }
@@ -197,14 +211,14 @@ namespace TRADDataMonitor.SensorTypes
             // send a reply email
 
             _VOCAlertCooldown.Enabled = false;
-            VOCEmailTimerOnCooldown = false;
+            _VOCEmailTimerOnCooldown = false;
         }
         public void _CO2AlertCooldown_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             // send a reply email
 
             _CO2AlertCooldown.Enabled = false;
-            CO2EmailTimerOnCooldown = false;
+            _CO2EmailTimerOnCooldown = false;
         }
 
         public string[] ProduceVOCData()
@@ -231,5 +245,7 @@ namespace TRADDataMonitor.SensorTypes
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }
