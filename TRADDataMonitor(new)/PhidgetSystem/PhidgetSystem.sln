@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiApp", "PiApp\PiApp.csproj", "{60F9949A-228F-46D5-9A93-DDC563659FA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemCore", "SystemCore\SystemCore.csproj", "{008D374B-908C-44E0-BFCC-5FEF8F77BB26}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60F9949A-228F-46D5-9A93-DDC563659FA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60F9949A-228F-46D5-9A93-DDC563659FA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60F9949A-228F-46D5-9A93-DDC563659FA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60F9949A-228F-46D5-9A93-DDC563659FA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{008D374B-908C-44E0-BFCC-5FEF8F77BB26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{008D374B-908C-44E0-BFCC-5FEF8F77BB26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{008D374B-908C-44E0-BFCC-5FEF8F77BB26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{008D374B-908C-44E0-BFCC-5FEF8F77BB26}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {38C22C02-0873-458A-8552-A5A8487A0CCD}
+	EndGlobalSection
+EndGlobal
