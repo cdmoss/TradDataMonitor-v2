@@ -1,24 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cheze\\Desktop\\TRADDataMonitor\\TRADDataMonitor\\TRADDataMonitor.csproj": {}
+    "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\TRADDataMonitor\\TRADDataMonitor.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cheze\\Desktop\\TRADDataMonitor\\TRADDataMonitor\\TRADDataMonitor.csproj": {
+    "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\TRADDataMonitor\\TRADDataMonitor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cheze\\Desktop\\TRADDataMonitor\\TRADDataMonitor\\TRADDataMonitor.csproj",
+        "projectUniqueName": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\TRADDataMonitor\\TRADDataMonitor.csproj",
         "projectName": "TRADDataMonitor",
-        "projectPath": "C:\\Users\\cheze\\Desktop\\TRADDataMonitor\\TRADDataMonitor\\TRADDataMonitor.csproj",
-        "packagesPath": "C:\\Users\\cheze\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cheze\\Desktop\\TRADDataMonitor\\TRADDataMonitor\\obj\\",
+        "projectPath": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\TRADDataMonitor\\TRADDataMonitor.csproj",
+        "packagesPath": "C:\\Users\\chase.mossing2\\.nuget\\packages\\",
+        "outputPath": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\TRADDataMonitor\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\cheze\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\chase.mossing2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
@@ -86,8 +88,12 @@
           "warn": true,
           "downloadDependencies": [
             {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.0.1, 3.0.1]"
+            },
+            {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[3.0.2, 3.0.2]"
+              "version": "[3.0.3, 3.0.3]"
             }
           ],
           "frameworkReferences": {
@@ -95,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

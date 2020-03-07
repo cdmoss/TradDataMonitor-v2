@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Phidget22.NET" Version="1.6.20200219" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SystemCore\SystemCore.csproj" />
   </ItemGroup>
 

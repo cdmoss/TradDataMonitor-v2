@@ -8,23 +8,33 @@
     ".NETCoreApp,Version=v3.1": {
       "PiApp/1.0.0": {
         "dependencies": {
+          "Newtonsoft.Json": "12.0.3",
+          "Phidget22.NET": "1.6.20200219",
           "SystemCore": "1.0.0"
         },
         "runtime": {
           "PiApp.dll": {}
         }
       },
-      "Phidget22.NET/1.6.20200214": {
+      "Newtonsoft.Json/12.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.3.23909"
+          }
+        }
+      },
+      "Phidget22.NET/1.6.20200219": {
         "runtime": {
           "lib/netcoreapp2.0/Phidget22.NET.dll": {
-            "assemblyVersion": "1.1.6.2",
+            "assemblyVersion": "1.1.6.4",
             "fileVersion": "1.0.0.0"
           }
         }
       },
       "SystemCore/1.0.0": {
         "dependencies": {
-          "Phidget22.NET": "1.6.20200214"
+          "Phidget22.NET": "1.6.20200219"
         },
         "runtime": {
           "SystemCore.dll": {}
@@ -38,12 +48,19 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Phidget22.NET/1.6.20200214": {
+    "Newtonsoft.Json/12.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-RAL0kepQho12pWwMX3os1yjUMUu2DuzE3I/25vLEwbspts5xUFRSVx2epb25Sjk1uFWU3VFWh2IrI/Oyi7rbEw==",
-      "path": "phidget22.net/1.6.20200214",
-      "hashPath": "phidget22.net.1.6.20200214.nupkg.sha512"
+      "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "path": "newtonsoft.json/12.0.3",
+      "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "Phidget22.NET/1.6.20200219": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-O/N2QK7kmqQqiIM0cUGrtzs1EtYX/rnjaP4FU9PO6IPJkr7gJ+1n6/d+SKUKZh+9pAPWTbG1smD53E8zrFgxQQ==",
+      "path": "phidget22.net/1.6.20200219",
+      "hashPath": "phidget22.net.1.6.20200219.nupkg.sha512"
     },
     "SystemCore/1.0.0": {
       "type": "project",

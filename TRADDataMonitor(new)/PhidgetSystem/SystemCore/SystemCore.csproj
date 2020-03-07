@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Phidget22.NET" Version="1.6.20200214" />
+    <PackageReference Include="Phidget22.NET" Version="1.6.20200219" />
   </ItemGroup>
 
 </Project>

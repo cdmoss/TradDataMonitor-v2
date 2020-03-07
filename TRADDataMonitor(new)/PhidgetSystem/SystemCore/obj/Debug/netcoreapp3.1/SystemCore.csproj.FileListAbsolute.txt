@@ -8,3 +8,13 @@ C:\Users\cheze\Desktop\PhidgetSystem\SystemCore\bin\Debug\netcoreapp3.1\dll\x64\
 C:\Users\cheze\Desktop\PhidgetSystem\SystemCore\bin\Debug\netcoreapp3.1\SystemCore.pdb
 C:\Users\cheze\Desktop\PhidgetSystem\SystemCore\obj\Debug\netcoreapp3.1\SystemCore.dll
 C:\Users\cheze\Desktop\PhidgetSystem\SystemCore\obj\Debug\netcoreapp3.1\SystemCore.pdb
+Z:\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\bin\Debug\netcoreapp3.1\dll\x86\phidget22.dll
+Z:\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\bin\Debug\netcoreapp3.1\dll\x64\phidget22.dll
+Z:\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\bin\Debug\netcoreapp3.1\SystemCore.deps.json
+Z:\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\bin\Debug\netcoreapp3.1\SystemCore.dll
+Z:\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\bin\Debug\netcoreapp3.1\SystemCore.pdb
+Z:\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\obj\Debug\netcoreapp3.1\SystemCore.csprojAssemblyReference.cache
+Z:\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\obj\Debug\netcoreapp3.1\SystemCore.AssemblyInfoInputs.cache
+Z:\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\obj\Debug\netcoreapp3.1\SystemCore.AssemblyInfo.cs
+Z:\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\obj\Debug\netcoreapp3.1\SystemCore.dll
+Z:\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\obj\Debug\netcoreapp3.1\SystemCore.pdb

@@ -2,7 +2,16 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "Phidget22.NET/1.6.20200214": {
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Phidget22.NET/1.6.20200219": {
         "type": "package",
         "compile": {
           "lib/netcoreapp2.0/Phidget22.NET.dll": {}
@@ -11,14 +20,14 @@
           "lib/netcoreapp2.0/Phidget22.NET.dll": {}
         },
         "build": {
-          "build/_._": {}
+          "build/Phidget22.NET.props": {}
         }
       },
       "SystemCore/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "Phidget22.NET": "1.6.20200214"
+          "Phidget22.NET": "1.6.20200219"
         },
         "compile": {
           "bin/placeholder/SystemCore.dll": {}
@@ -30,10 +39,41 @@
     }
   },
   "libraries": {
-    "Phidget22.NET/1.6.20200214": {
-      "sha512": "RAL0kepQho12pWwMX3os1yjUMUu2DuzE3I/25vLEwbspts5xUFRSVx2epb25Sjk1uFWU3VFWh2IrI/Oyi7rbEw==",
+    "Newtonsoft.Json/12.0.3": {
+      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
       "type": "package",
-      "path": "phidget22.net/1.6.20200214",
+      "path": "newtonsoft.json/12.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
+    "Phidget22.NET/1.6.20200219": {
+      "sha512": "O/N2QK7kmqQqiIM0cUGrtzs1EtYX/rnjaP4FU9PO6IPJkr7gJ+1n6/d+SKUKZh+9pAPWTbG1smD53E8zrFgxQQ==",
+      "type": "package",
+      "path": "phidget22.net/1.6.20200219",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -68,7 +108,7 @@
         "lib/netstandard2.0/Phidget22.NET.dll",
         "lib/netstandard2.0/Phidget22.NET.pdb",
         "lib/netstandard2.0/Phidget22.NET.xml",
-        "phidget22.net.1.6.20200214.nupkg.sha512",
+        "phidget22.net.1.6.20200219.nupkg.sha512",
         "phidget22.net.nuspec"
       ]
     },
@@ -80,28 +120,33 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Newtonsoft.Json >= 12.0.3",
+      "Phidget22.NET >= 1.6.20200219",
       "SystemCore >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\cheze\\.nuget\\packages\\": {},
+    "C:\\Users\\chase.mossing2\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\PiApp\\PiApp.csproj",
+      "projectUniqueName": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\PiApp\\PiApp.csproj",
       "projectName": "PiApp",
-      "projectPath": "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\PiApp\\PiApp.csproj",
-      "packagesPath": "C:\\Users\\cheze\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\PiApp\\obj\\",
+      "projectPath": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\PiApp\\PiApp.csproj",
+      "packagesPath": "C:\\Users\\chase.mossing2\\.nuget\\packages\\",
+      "outputPath": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\PiApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\cheze\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\chase.mossing2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -113,8 +158,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\SystemCore\\SystemCore.csproj": {
-              "projectPath": "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\SystemCore\\SystemCore.csproj"
+            "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj": {
+              "projectPath": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj"
             }
           }
         }
@@ -127,6 +172,16 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "dependencies": {
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[12.0.3, )"
+          },
+          "Phidget22.NET": {
+            "target": "Package",
+            "version": "[1.6.20200219, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -142,7 +197,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,0 +1,16 @@
+Z:\JSONSerializeDemo\JSONSerializeDemo\bin\Debug\netcoreapp3.1\JSONSerializeDemo.exe
+Z:\JSONSerializeDemo\JSONSerializeDemo\obj\Debug\netcoreapp3.1\JSONSerializeDemo.csprojAssemblyReference.cache
+Z:\JSONSerializeDemo\JSONSerializeDemo\obj\Debug\netcoreapp3.1\JSONSerializeDemo.AssemblyInfoInputs.cache
+Z:\JSONSerializeDemo\JSONSerializeDemo\obj\Debug\netcoreapp3.1\JSONSerializeDemo.AssemblyInfo.cs
+Z:\JSONSerializeDemo\JSONSerializeDemo\bin\Debug\netcoreapp3.1\JSONSerializeDemo.deps.json
+Z:\JSONSerializeDemo\JSONSerializeDemo\bin\Debug\netcoreapp3.1\JSONSerializeDemo.runtimeconfig.json
+Z:\JSONSerializeDemo\JSONSerializeDemo\bin\Debug\netcoreapp3.1\JSONSerializeDemo.runtimeconfig.dev.json
+Z:\JSONSerializeDemo\JSONSerializeDemo\bin\Debug\netcoreapp3.1\JSONSerializeDemo.dll
+Z:\JSONSerializeDemo\JSONSerializeDemo\bin\Debug\netcoreapp3.1\JSONSerializeDemo.pdb
+Z:\JSONSerializeDemo\JSONSerializeDemo\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+Z:\JSONSerializeDemo\JSONSerializeDemo\obj\Debug\netcoreapp3.1\JSONSerializeDemo.csproj.CopyComplete
+Z:\JSONSerializeDemo\JSONSerializeDemo\obj\Debug\netcoreapp3.1\JSONSerializeDemo.dll
+Z:\JSONSerializeDemo\JSONSerializeDemo\obj\Debug\netcoreapp3.1\JSONSerializeDemo.pdb
+Z:\JSONSerializeDemo\JSONSerializeDemo\bin\Debug\netcoreapp3.1\dll\x86\phidget22.dll
+Z:\JSONSerializeDemo\JSONSerializeDemo\bin\Debug\netcoreapp3.1\dll\x64\phidget22.dll
+Z:\JSONSerializeDemo\JSONSerializeDemo\bin\Debug\netcoreapp3.1\Phidget22.NET.dll

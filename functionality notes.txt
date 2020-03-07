@@ -1,6 +1,0 @@
-Linux:
-	- hub with hostname = hub5000 works, hub5000.local doesnt work
-	- data collection works with hub1 and hub3 	
-	
-Windows:
-	- data collection works with hub1 and hub3 

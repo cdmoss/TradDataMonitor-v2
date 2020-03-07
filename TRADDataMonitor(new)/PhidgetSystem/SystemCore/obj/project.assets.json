@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "Phidget22.NET/1.6.20200214": {
+      "Phidget22.NET/1.6.20200219": {
         "type": "package",
         "compile": {
           "lib/netcoreapp2.0/Phidget22.NET.dll": {}
@@ -17,10 +17,10 @@
     }
   },
   "libraries": {
-    "Phidget22.NET/1.6.20200214": {
-      "sha512": "RAL0kepQho12pWwMX3os1yjUMUu2DuzE3I/25vLEwbspts5xUFRSVx2epb25Sjk1uFWU3VFWh2IrI/Oyi7rbEw==",
+    "Phidget22.NET/1.6.20200219": {
+      "sha512": "O/N2QK7kmqQqiIM0cUGrtzs1EtYX/rnjaP4FU9PO6IPJkr7gJ+1n6/d+SKUKZh+9pAPWTbG1smD53E8zrFgxQQ==",
       "type": "package",
-      "path": "phidget22.net/1.6.20200214",
+      "path": "phidget22.net/1.6.20200219",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -55,35 +55,38 @@
         "lib/netstandard2.0/Phidget22.NET.dll",
         "lib/netstandard2.0/Phidget22.NET.pdb",
         "lib/netstandard2.0/Phidget22.NET.xml",
-        "phidget22.net.1.6.20200214.nupkg.sha512",
+        "phidget22.net.1.6.20200219.nupkg.sha512",
         "phidget22.net.nuspec"
       ]
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Phidget22.NET >= 1.6.20200214"
+      "Phidget22.NET >= 1.6.20200219"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\cheze\\.nuget\\packages\\": {},
+    "C:\\Users\\chase.mossing2\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
+      "projectUniqueName": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
       "projectName": "SystemCore",
-      "projectPath": "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
-      "packagesPath": "C:\\Users\\cheze\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\SystemCore\\obj\\",
+      "projectPath": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
+      "packagesPath": "C:\\Users\\chase.mossing2\\.nuget\\packages\\",
+      "outputPath": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\cheze\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\chase.mossing2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -108,7 +111,7 @@
         "dependencies": {
           "Phidget22.NET": {
             "target": "Package",
-            "version": "[1.6.20200214, )"
+            "version": "[1.6.20200219, )"
           }
         },
         "imports": [
@@ -126,7 +129,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

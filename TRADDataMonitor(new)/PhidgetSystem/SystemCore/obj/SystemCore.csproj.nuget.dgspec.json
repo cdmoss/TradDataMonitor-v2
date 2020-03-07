@@ -1,24 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\SystemCore\\SystemCore.csproj": {}
+    "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\SystemCore\\SystemCore.csproj": {
+    "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
+        "projectUniqueName": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
         "projectName": "SystemCore",
-        "projectPath": "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
-        "packagesPath": "C:\\Users\\cheze\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cheze\\Desktop\\PhidgetSystem\\SystemCore\\obj\\",
+        "projectPath": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
+        "packagesPath": "C:\\Users\\chase.mossing2\\.nuget\\packages\\",
+        "outputPath": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\cheze\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\chase.mossing2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -43,7 +45,7 @@
           "dependencies": {
             "Phidget22.NET": {
               "target": "Package",
-              "version": "[1.6.20200214, )"
+              "version": "[1.6.20200219, )"
             }
           },
           "imports": [
@@ -61,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
