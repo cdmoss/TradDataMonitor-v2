@@ -1,7 +1,8 @@
-[
+{
+  "Devices": 
   {
-    "SerialNumber": "559095",
-    "HubName": "Test Hub 1",
+    "ID": "559095",
+    "Name": "Test Hub 1",
     "Sensors": [
       {
         "SensorType": "Humidity",
@@ -14,8 +15,8 @@
     ]
   },
   {
-    "SerialNumber": "559023",
-    "HubName": "Test Hub 2",
+    "ID": "559023",
+    "Name": "Test Hub 2",
     "Sensors": [
       {
         "SensorType": "Humidity",
@@ -27,4 +28,5 @@
       }
     ]
   }
-]
+}
+ 

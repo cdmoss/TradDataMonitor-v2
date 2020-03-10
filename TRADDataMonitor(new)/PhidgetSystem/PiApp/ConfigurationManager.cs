@@ -1,4 +1,4 @@
-﻿using Phidget22;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,16 +6,11 @@ using SystemCore;
 
 namespace PiApp
 {
-    // deserializes JSON config data sent from central server, serializes and sends current JSON config to central server when requested
-    public class ConfigurationManager
+    public static class ConfigurationManager
     {
-        List<Hub> Hubs;
-        List<HubSensor> HubSensors;
-        Dictionary<Tuple<int, int>, SensorType> ConfigManifest;
-
-        public ConfigurationManager()
+        public static Trailer GetConfig()
         {
-
+            return JsonConvert.DeserializeObject<Trailer>("../../../config.json");
         }
     }
 }

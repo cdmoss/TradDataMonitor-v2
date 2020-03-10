@@ -4,10 +4,10 @@ using System.Text;
 
 namespace SystemCore
 {
-    public class Trailer
+    public class DataMonitoringDevice
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
-        public List<DataMonitoringDevice> Devices { get; set; }
+        public List<Sensor> Sensors { get; set; }
     }
 }

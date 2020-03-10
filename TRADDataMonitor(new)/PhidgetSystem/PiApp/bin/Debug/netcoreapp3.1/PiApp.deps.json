@@ -34,6 +34,7 @@
       },
       "SystemCore/1.0.0": {
         "dependencies": {
+          "Newtonsoft.Json": "12.0.3",
           "Phidget22.NET": "1.6.20200219"
         },
         "runtime": {
