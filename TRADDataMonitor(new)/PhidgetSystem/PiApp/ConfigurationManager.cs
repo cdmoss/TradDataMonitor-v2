@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using SystemCore;
 
@@ -10,7 +11,8 @@ namespace PiApp
     {
         public static Trailer GetConfig()
         {
-            return JsonConvert.DeserializeObject<Trailer>("../../../config.json");
+            string config = File.ReadAllText("../../../config.json");
+            return JsonConvert.DeserializeObject<Trailer>(config);
         }
     }
 }

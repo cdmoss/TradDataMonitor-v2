@@ -19,13 +19,19 @@ namespace PiApp
             // iterate through trailer, create appropriate channels
             foreach (DataMonitoringDevice dmd in t.Devices)
             {
-                if (dmd is WHub)
+                if (dmd.DeviceType == DeviceType.PhidgetHub)
                 {
                     Hub hub = new Hub()
                     {
-                        DeviceLabel = dmd.Name,
+                        //DeviceLabel = dmd.Name,
                         DeviceSerialNumber = dmd.ID
                     };
+
+                    hub.Attach += Hub_Attach;
+                    hub.Detach += Hub_Detach;
+
+                    hub.Open();
+                    Console.WriteLine($"Hub {hub.DeviceSerialNumber} is ready for attachment");
 
                     Hubs.Add(hub);
                     foreach (Sensor sensor in dmd.Sensors)
@@ -39,6 +45,8 @@ namespace PiApp
                                     DeviceSerialNumber = dmd.ID
                                 };
 
+                                sensor.Channel = hs;
+
                                 Channels.Add(hs);
 
                                 break;
@@ -48,6 +56,8 @@ namespace PiApp
                                     HubPort = sensor.HubPort,
                                     DeviceSerialNumber = dmd.ID
                                 };
+
+                                sensor.Channel = ats;
 
                                 Channels.Add(ats);
 
@@ -59,14 +69,19 @@ namespace PiApp
                                     DeviceSerialNumber = dmd.ID
                                 };
 
+                                sensor.Channel = sts;
+
                                 Channels.Add(sts);
                                 break;
                             case SensorType.Oxygen:
                                 VoltageInput oxygen = new VoltageInput()
                                 {
                                     HubPort = sensor.HubPort,
-                                    DeviceSerialNumber = dmd.ID
+                                    DeviceSerialNumber = dmd.ID,
+                                    IsHubPortDevice = true
                                 };
+
+                                sensor.Channel = oxygen;
 
                                 Channels.Add(oxygen);
                                 break;
@@ -74,34 +89,27 @@ namespace PiApp
                                 VoltageInput moisture = new VoltageInput()
                                 {
                                     HubPort = sensor.HubPort,
-                                    DeviceSerialNumber = dmd.ID
+                                    DeviceSerialNumber = dmd.ID,
+                                    IsHubPortDevice = true
                                 };
+
+                                sensor.Channel = moisture;
 
                                 Channels.Add(moisture);
                                 break;
                         }
+
+                        sensor.Channel.Attach += Channel_Attach;
+                        sensor.Channel.Detach += Channel_Detach;
+                        sensor.Channel.Open();
+
+                        Console.WriteLine($"{sensor.SensorType} on port {sensor.Channel.HubPort} on hub {sensor.Channel.DeviceSerialNumber} is ready for attachment");
                     }
                 }
-                if (dmd is CCS811Sensor)
+                if (dmd.DeviceType == DeviceType.CCS811)
                 {
                     // handle voc sensors
                 }
-            }
-
-            foreach (Hub hub in Hubs)
-            {
-                hub.Attach += Hub_Attach;
-                hub.Detach += Hub_Detach; ;
-
-                hub.Open();
-            }
-
-            foreach (Phidget channel in Channels)
-            {
-                channel.Attach += Channel_Attach;
-                channel.Detach += Channel_Detach;
-                
-                channel.Open();
             }
         }
 
@@ -112,7 +120,7 @@ namespace PiApp
 
         private void Hub_Detach(object sender, Phidget22.Events.DetachEventArgs e)
         {
-            Console.WriteLine($"Hub {((Hub)sender).DeviceSerialNumber}was detached");
+            Console.WriteLine($"Hub {((Hub)sender).DeviceSerialNumber} was detached");
         }
 
         private void Channel_Attach(object sender, Phidget22.Events.AttachEventArgs e)

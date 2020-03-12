@@ -1,32 +1,35 @@
 {
-  "Devices": 
-  {
-    "ID": "559095",
-    "Name": "Test Hub 1",
-    "Sensors": [
-      {
-        "SensorType": "Humidity",
-        "Port": "0"
-      },
-      {
-        "SensorType": "Moisture",
-        "Port": "5"
-      }
-    ]
-  },
-  {
-    "ID": "559023",
-    "Name": "Test Hub 2",
-    "Sensors": [
-      {
-        "SensorType": "Humidity",
-        "Port": "1"
-      },
-      {
-        "SensorType": "Moisture",
-        "Port": "2"
-      }
-    ]
-  }
+  "Devices": [
+    {
+      "DeviceType": "PhidgetHub",
+      "ID": "559095",
+      "Name": "Test Hub 1",
+      "Sensors": [
+        {
+          "SensorType": "SoilTemperature",
+          "HubPort": "0"
+        },
+        {
+          "SensorType": "AirTemperature",
+          "HubPort": "0"
+        }
+      ]
+    },
+    {
+      "DeviceType": "PhidgetHub",
+      "ID": "559023",
+      "Name": "Test Hub 2",
+      "Sensors": [
+        {
+          "SensorType": "SoilTemperature",
+          "HubPort": "1"
+        },
+        {
+          "SensorType": "Oxygen",
+          "HubPort": "2"
+        }
+      ]
+    }
+  ]
 }
  

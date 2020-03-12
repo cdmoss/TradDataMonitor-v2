@@ -1,26 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj": {}
+    "C:\\Users\\Chase\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj": {}
   },
   "projects": {
-    "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj": {
+    "C:\\Users\\Chase\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
+        "projectUniqueName": "C:\\Users\\Chase\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
         "projectName": "SystemCore",
-        "projectPath": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
-        "packagesPath": "C:\\Users\\chase.mossing2\\.nuget\\packages\\",
-        "outputPath": "Z:\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\obj\\",
+        "projectPath": "C:\\Users\\Chase\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\SystemCore.csproj",
+        "packagesPath": "C:\\Users\\Chase\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Chase\\Desktop\\Trad-Data-Monitor-3\\TRADDataMonitor(new)\\PhidgetSystem\\SystemCore\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\chase.mossing2\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Chase\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
