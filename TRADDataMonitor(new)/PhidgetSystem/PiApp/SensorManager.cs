@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Timers;
 using SystemCore;
 
 namespace PiApp
@@ -11,6 +13,7 @@ namespace PiApp
         private Trailer trailer;
         private List<Hub> Hubs = new List<Hub>();
         private List<Phidget> Channels = new List<Phidget>();
+        private List<VITimer> VITimers = new List<VITimer>();
 
         public SensorManager(Trailer t)
         {
@@ -21,22 +24,42 @@ namespace PiApp
             {
                 if (dmd.DeviceType == DeviceType.PhidgetHub)
                 {
-                    Hub hub = new Hub()
-                    {
-                        //DeviceLabel = dmd.Name,
-                        DeviceSerialNumber = dmd.ID
-                    };
-
-                    hub.Attach += Hub_Attach;
-                    hub.Detach += Hub_Detach;
-
-                    hub.Open();
-                    Console.WriteLine($"Hub {hub.DeviceSerialNumber} is ready for attachment");
-
-                    Hubs.Add(hub);
+                    InitializeHub(dmd);
+                    
                     foreach (Sensor sensor in dmd.Sensors)
                     {
-                        switch (sensor.SensorType)
+                        InitializeSensor(sensor, dmd);
+                    }
+                }
+                if (dmd.DeviceType == DeviceType.CCS811)
+                {
+                    // handle voc sensors
+                }
+
+                //Thread voltageListener = new Thread();
+            }
+        }
+
+        private void InitializeHub(DataMonitoringDevice dmd)
+        {
+            Hub hub = new Hub()
+            {
+                //DeviceLabel = dmd.Name,
+                DeviceSerialNumber = dmd.ID
+            };
+
+            hub.Attach += Hub_Attach;
+            hub.Detach += Hub_Detach;
+
+            hub.Open();
+            Console.WriteLine($"Hub {hub.DeviceSerialNumber} is ready for attachment");
+
+            Hubs.Add(hub);
+        }
+
+        private void InitializeSensor(Sensor sensor, DataMonitoringDevice dmd)
+        {
+            switch (sensor.SensorType)
                         {
                             case SensorType.Humidity:
                                 HumiditySensor hs = new HumiditySensor()
@@ -83,7 +106,8 @@ namespace PiApp
 
                                 sensor.Channel = oxygen;
 
-                                Channels.Add(oxygen);
+                                VITimers.Add(new VITimer(sensor.HubPort));
+
                                 break;
                             case SensorType.Moisture:
                                 VoltageInput moisture = new VoltageInput()
@@ -95,22 +119,16 @@ namespace PiApp
 
                                 sensor.Channel = moisture;
 
-                                Channels.Add(moisture);
+                                VITimers.Add(new VITimer(sensor.HubPort));
+
                                 break;
                         }
 
-                        sensor.Channel.Attach += Channel_Attach;
-                        sensor.Channel.Detach += Channel_Detach;
-                        sensor.Channel.Open();
+            sensor.Channel.Attach += Channel_Attach;
+            sensor.Channel.Detach += Channel_Detach;
+            sensor.Channel.Open();
 
-                        Console.WriteLine($"{sensor.SensorType} on port {sensor.Channel.HubPort} on hub {sensor.Channel.DeviceSerialNumber} is ready for attachment");
-                    }
-                }
-                if (dmd.DeviceType == DeviceType.CCS811)
-                {
-                    // handle voc sensors
-                }
-            }
+            Console.WriteLine($"{sensor.SensorType} on port {sensor.Channel.HubPort} on hub {sensor.Channel.DeviceSerialNumber} is ready for attachment");
         }
 
         private void Hub_Attach(object sender, Phidget22.Events.AttachEventArgs e)
@@ -125,20 +143,20 @@ namespace PiApp
 
         private void Channel_Attach(object sender, Phidget22.Events.AttachEventArgs e)
         {
-            Console.WriteLine($"Hub {((Phidget)sender).DeviceSerialNumber} was attached");
+            if (((Phidget)sender).ChannelClassName != "PhidgetVoltageInput")
+            {
+                Console.WriteLine($"{((Phidget)sender).ChannelClassName} on {((Phidget)sender).HubPort} on hub {((Phidget)sender).DeviceSerialNumber} was attached");
+            }
         }
 
         private void Channel_Detach(object sender, Phidget22.Events.DetachEventArgs e)
         {
-            Console.WriteLine($"Hub {((Hub)sender).DeviceSerialNumber} was detached");
+            Console.WriteLine($"{((Phidget)sender).ChannelClassName} on {((Phidget)sender).HubPort} on hub {((Phidget)sender).DeviceSerialNumber} was detached");
         }
 
-        // public List<Reading> GetAllData()
-        // {
-        //     foreach (var item in collection)
-        //     {
-        //
-        //     }
-        // } 
+        private void Voltage_Attach(VoltageInput vi, int port, int serialNumber)
+        {
+
+        }
     }
 }

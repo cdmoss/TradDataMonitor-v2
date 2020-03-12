@@ -23,7 +23,6 @@ C:\Users\Chase\Desktop\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\Sy
 C:\Users\Chase\Desktop\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\bin\Debug\netcoreapp3.1\SystemCore.deps.json
 C:\Users\Chase\Desktop\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\bin\Debug\netcoreapp3.1\SystemCore.dll
 C:\Users\Chase\Desktop\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\bin\Debug\netcoreapp3.1\SystemCore.pdb
-C:\Users\Chase\Desktop\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\obj\Debug\netcoreapp3.1\SystemCore.csprojAssemblyReference.cache
 C:\Users\Chase\Desktop\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\obj\Debug\netcoreapp3.1\SystemCore.AssemblyInfoInputs.cache
 C:\Users\Chase\Desktop\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\obj\Debug\netcoreapp3.1\SystemCore.AssemblyInfo.cs
 C:\Users\Chase\Desktop\Trad-Data-Monitor-3\TRADDataMonitor(new)\PhidgetSystem\SystemCore\obj\Debug\netcoreapp3.1\SystemCore.dll

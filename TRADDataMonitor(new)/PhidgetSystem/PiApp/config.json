@@ -10,8 +10,8 @@
           "HubPort": "0"
         },
         {
-          "SensorType": "AirTemperature",
-          "HubPort": "0"
+          "SensorType": "Moisture",
+          "HubPort": "2"
         }
       ]
     },
@@ -25,7 +25,7 @@
           "HubPort": "1"
         },
         {
-          "SensorType": "Oxygen",
+          "SensorType": "Moisture",
           "HubPort": "2"
         }
       ]
