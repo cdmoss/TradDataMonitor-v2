@@ -11,7 +11,7 @@ namespace PiApp
     {
         public static Trailer GetConfig()
         {
-            string config = File.ReadAllText("../../../config.json");
+            string config = File.ReadAllText("config.json");
             return JsonConvert.DeserializeObject<Trailer>(config);
         }
     }

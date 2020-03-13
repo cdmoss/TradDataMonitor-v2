@@ -6,8 +6,8 @@ namespace SystemCore
 {
     public interface IDataMonitoringDevice
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public List<Sensor> Sensors { get; set; }
+        int ID { get; set; }
+        string Name { get; set; }
+        List<Sensor> Sensors { get; set; }
     }
 }
